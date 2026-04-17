@@ -1,0 +1,99 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/TPMResultsScreen.gd" id="1_tpm"]
+
+[node name="TPMResultsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tpm")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.02, 0.02, 0.02, 1)
+
+[node name="RootMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 28
+
+[node name="MainColumn" type="VBoxContainer" parent="RootMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="RootMargin/MainColumn"]
+layout_mode = 2
+text = "TPM DECISION ANALYSIS"
+theme_override_font_sizes/font_size = 34
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+
+[node name="SubtitleLabel" type="Label" parent="RootMargin/MainColumn"]
+layout_mode = 2
+text = "Five cycles. Five recorded decisions. Behavioral payoff unlocked."
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+
+[node name="ClassificationLabel" type="Label" parent="RootMargin/MainColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Strategic"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="ExplanationLabel" type="Label" parent="RootMargin/MainColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+
+[node name="MetricsLabel" type="Label" parent="RootMargin/MainColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 1, 1, 0.82)
+
+[node name="DecisionsTitle" type="Label" parent="RootMargin/MainColumn"]
+layout_mode = 2
+text = "Cycle Decisions"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+
+[node name="DecisionsPanel" type="PanelContainer" parent="RootMargin/MainColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DecisionsMargin" type="MarginContainer" parent="RootMargin/MainColumn/DecisionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="DecisionsList" type="VBoxContainer" parent="RootMargin/MainColumn/DecisionsPanel/DecisionsMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="ContinueButton" type="Button" parent="RootMargin/MainColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 52)
+text = "CONTINUE TO PROFILE"

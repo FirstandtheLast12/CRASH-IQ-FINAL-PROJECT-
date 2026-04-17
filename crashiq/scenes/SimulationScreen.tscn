@@ -1,0 +1,1245 @@
+[gd_scene load_steps=6 format=3 uid="uid://crashiq_sim01"]
+
+[ext_resource type="Script" path="res://scripts/SimulationScreen.gd" id="1_scrn"]
+[ext_resource type="Script" path="res://scripts/CandlestickChart.gd" id="2_chart"]
+[ext_resource type="Script" path="res://scripts/HeadlinePopup.gd" id="3_popup"]
+[ext_resource type="Script" path="res://scripts/TradePanel.gd" id="4_trade"]
+
+[node name="SimulationScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_scrn")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+color = Color(0, 0, 0, 1)
+
+[node name="Scanlines" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+color = Color(0, 1, 0.254902, 0.04)
+mouse_filter = 2
+
+[node name="OuterMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="MainColumn" type="VBoxContainer" parent="OuterMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="TopBarWrapper" type="MarginContainer" parent="OuterMargin/MainColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_minimum_size = Vector2(0, 108)
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_bottom = 6
+
+[node name="TopBar" type="PanelContainer" parent="OuterMargin/MainColumn/TopBarWrapper"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_minimum_size = Vector2(0, 88)
+
+[node name="TopBarMargin" type="MarginContainer" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="TopBarContent" type="VBoxContainer" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/separation = 10
+
+[node name="TopBarPrimaryRow" type="HBoxContainer" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
+
+[node name="HeadlineLabel" type="Label" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent/TopBarPrimaryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Awaiting market open..."
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+clip_text = true
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent/TopBarPrimaryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(76, 0)
+text = "--"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TopBarStatsRow" type="HBoxContainer" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="CashLabel" type="Label" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent/TopBarStatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(160, 0)
+text = "Cash  $0.00"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PortfolioLabel" type="Label" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent/TopBarStatsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(180, 0)
+text = "Portfolio  $0.00"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pnl_label" type="Label" parent="OuterMargin/MainColumn/TopBarWrapper/TopBar/TopBarMargin/TopBarContent/TopBarStatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(140, 0)
+text = "P/L: $0.00"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerBar" type="ProgressBar" parent="OuterMargin/MainColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 6)
+show_percentage = false
+visible = false
+
+[node name="BodyRow" type="HBoxContainer" parent="OuterMargin/MainColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftColumn" type="ScrollContainer" parent="OuterMargin/MainColumn/BodyRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="LeftColumnContent" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="TickerTabs" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_minimum_size = Vector2(0, 60)
+theme_override_constants/separation = 8
+
+[node name="TabCIQM" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TickerTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$CIQM"
+
+[node name="TabCIQE" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TickerTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$CIQE"
+
+[node name="TabCIQD" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TickerTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$CIQD"
+
+[node name="TabCIQS" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TickerTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$CIQS"
+
+[node name="TabCIQG" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TickerTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "$CIQG"
+
+[node name="HeroPanel" type="PanelContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="HeroMargin" type="MarginContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HeroColumn" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/separation = 10
+
+[node name="HeroInnerPadding" type="MarginContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/margin_top = 20
+
+[node name="HeroContent" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/separation = 12
+
+[node name="HeroHeader" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/separation = 8
+
+[node name="CycleLabel" type="RichTextLabel" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+fit_content = true
+scroll_active = false
+bbcode_enabled = true
+text = "[b][color=#FFD700]CYCLE[/color][/b] [color=#FFFFFF]1/5[/color]"
+theme_override_font_sizes/normal_font_size = 18
+
+[node name="ActiveTickerLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQM"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="ActiveNameLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CIQ Broad Market"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="HeroMetrics" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ActivePriceLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader/HeroMetrics"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$100.00"
+theme_override_font_sizes/font_size = 36
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="ActiveChangeLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader/HeroMetrics"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+0.00% this cycle"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+vertical_alignment = 1
+
+[node name="ActiveContextLabel" type="RichTextLabel" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+fit_content = true
+scroll_active = false
+bbcode_enabled = true
+autowrap_mode = 3
+text = "Select a fund to inspect its crisis behavior."
+theme_override_font_sizes/normal_font_size = 13
+theme_override_colors/default_color = Color(1, 1, 1, 0.9)
+
+[node name="HintLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/HeroHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = "Hint: Watch how players usually react."
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 0.843137, 0, 0.9)
+
+[node name="ChartStage" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_minimum_size = Vector2(0, 400)
+
+[node name="ChartCIQM" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/ChartStage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("2_chart")
+ticker = "CIQM"
+etf_description = "Broad Market"
+etf_context = "Falls in broad risk-off selling."
+
+[node name="ChartCIQE" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/ChartStage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("2_chart")
+ticker = "CIQE"
+etf_description = "Energy Fund"
+etf_context = "Spikes when oil supply is disrupted."
+
+[node name="ChartCIQD" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/ChartStage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("2_chart")
+ticker = "CIQD"
+etf_description = "Defense Fund"
+etf_context = "Benefits from military escalation."
+
+[node name="ChartCIQS" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/ChartStage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("2_chart")
+ticker = "CIQS"
+etf_description = "Safe Haven"
+etf_context = "Rises as investors seek defense."
+
+[node name="ChartCIQG" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/HeroPanel/HeroMargin/HeroColumn/HeroInnerPadding/HeroContent/ChartStage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("2_chart")
+ticker = "CIQG"
+etf_description = "Global Shipping"
+etf_context = "Weakens when trade lanes choke."
+
+[node name="MiniCards" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent"]
+layout_mode = 2
+visible = false
+theme_override_constants/separation = 8
+
+[node name="MiniCard1" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MiniCard1Box" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+
+[node name="MiniTicker1" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard1/MiniCard1Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQE"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniPrice1" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard1/MiniCard1Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$80.00"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="MiniChange1" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard1/MiniCard1Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+0.00%"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniCard2" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MiniCard2Box" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+
+[node name="MiniTicker2" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard2/MiniCard2Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQD"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniPrice2" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard2/MiniCard2Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$90.00"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="MiniChange2" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard2/MiniCard2Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+0.00%"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniCard3" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MiniCard3Box" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+
+[node name="MiniTicker3" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard3/MiniCard3Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQS"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniPrice3" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard3/MiniCard3Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$70.00"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="MiniChange3" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard3/MiniCard3Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+0.00%"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniCard4" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MiniCard4Box" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 4
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = -8.0
+mouse_filter = 2
+
+[node name="MiniTicker4" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard4/MiniCard4Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQG"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="MiniPrice4" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard4/MiniCard4Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$60.00"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="MiniChange4" type="Label" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/MiniCards/MiniCard4/MiniCard4Box"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "-0.00%"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 0.266667, 0.266667, 1)
+
+[node name="TimeRangeMargin" type="MarginContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+
+[node name="TimeRangeBar" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin"]
+layout_mode = 2
+size_flags_horizontal = 1
+custom_minimum_size = Vector2(0, 34)
+theme_override_constants/separation = 14
+
+[node name="Range1D" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1D"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/Range1D"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="Range1W" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1W"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/Range1W"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="Range1M" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1M"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/Range1M"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="Range3M" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "3M"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/Range3M"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="RangeYTD" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "YTD"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/RangeYTD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="Range1Y" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1Y"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/Range1Y"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="Range5Y" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5Y"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/Range5Y"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="RangeMAX" type="Button" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MAX"
+flat = true
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="Underline" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent/TimeRangeMargin/TimeRangeBar/RangeMAX"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_top = 1.0
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_top = -3.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+mouse_filter = 2
+
+[node name="BottomSpacer" type="Control" parent="OuterMargin/MainColumn/BodyRow/LeftColumn/LeftColumnContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+
+[node name="TradePanel" type="Control" parent="OuterMargin/MainColumn/BodyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(440, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource("4_trade")
+
+[node name="TradePanelBG" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/TradePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[node name="TradeAccent" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/TradePanel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_right = 5.0
+visible = false
+color = Color(0, 1, 0.254902, 1)
+
+[node name="TradeMargin" type="MarginContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="TradeContent" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="OrderPanelTitle" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+layout_mode = 2
+text = "Make a Trade"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+
+[node name="OrderTickerLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQM"
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="OrderNameLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CIQ Broad Market"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 0.7)
+
+[node name="ActionTabs" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ActionBuyButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/ActionTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BUY"
+
+[node name="ActionSellButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/ActionTabs"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SELL"
+
+[node name="ModeRow" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ModeSharesButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/ModeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Shares"
+
+[node name="ModeDollarsButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/ModeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dollars"
+
+[node name="QuantityLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+layout_mode = 2
+text = "Quantity"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.7)
+
+[node name="QuantityInput" type="LineEdit" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Enter amount (shares or $)"
+
+[node name="MetricsGrid" type="GridContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 10
+
+[node name="PositionTitle" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+layout_mode = 2
+text = "Position"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+
+[node name="PositionLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Position  0.0000 shares"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+horizontal_alignment = 2
+
+[node name="MarketPriceTitle" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+layout_mode = 2
+text = "Market price"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+
+[node name="MarketPriceValue" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$0.00"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+horizontal_alignment = 2
+
+[node name="EstimateTitle" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+layout_mode = 2
+text = "Estimated total"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+
+[node name="EstimateValue" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$0.00"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+horizontal_alignment = 2
+
+[node name="BuyingPowerTitle" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+layout_mode = 2
+text = "Buying power"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+
+[node name="BuyingPowerValue" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent/MetricsGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$0.00"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+horizontal_alignment = 2
+
+[node name="OrderStatusLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = "Orders execute at market price. Fractional shares enabled."
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 0.72)
+
+[node name="ReviewButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 54)
+text = "Review Buy Order"
+
+[node name="HoldButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/TradeMargin/TradeContent"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "HOLD"
+
+[node name="ReviewPopup" type="Control" parent="OuterMargin/MainColumn/BodyRow/TradePanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="ReviewShade" type="ColorRect" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.8)
+
+[node name="ReviewCard" type="PanelContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup"]
+layout_mode = 1
+anchor_left = 0.08
+anchor_top = 0.18
+anchor_right = 0.92
+anchor_bottom = 0.82
+
+[node name="ReviewMargin" type="MarginContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ReviewColumn" type="VBoxContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ReviewActionLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BUY CIQ Broad Market"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="ReviewTickerLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQM"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="ReviewQuantityLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.0000 shares"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 1, 1, 0.9)
+
+[node name="ReviewPriceLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$0.00"
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 1, 1, 0.9)
+
+[node name="ReviewTotalLabel" type="Label" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$0.00"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+
+[node name="ReviewButtons" type="HBoxContainer" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ConfirmReviewButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn/ReviewButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CONFIRM"
+
+[node name="CancelReviewButton" type="Button" parent="OuterMargin/MainColumn/BodyRow/TradePanel/ReviewPopup/ReviewCard/ReviewMargin/ReviewColumn/ReviewButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CANCEL"
+
+[node name="HeadlinePopup" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+script = ExtResource("3_popup")
+
+[node name="PopupOverlay" type="ColorRect" parent="HeadlinePopup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.92)
+
+[node name="PopupBox" type="VBoxContainer" parent="HeadlinePopup"]
+layout_mode = 1
+anchor_left = 0.1
+anchor_top = 0.12
+anchor_right = 0.9
+anchor_bottom = 0.78
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+
+[node name="BreakingLabel" type="Label" parent="HeadlinePopup/PopupBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BREAKING:"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 0.231373, 0.188235, 1)
+
+[node name="HeadlineText" type="RichTextLabel" parent="HeadlinePopup/PopupBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+fit_content = true
+scroll_active = false
+bbcode_enabled = true
+autowrap_mode = 3
+text = ""
+theme_override_font_sizes/normal_font_size = 42
+theme_override_colors/default_color = Color(1, 0.980392, 0.941176, 1)
+
+[node name="SubtextText" type="Label" parent="HeadlinePopup/PopupBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+text = ""
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(1, 0.843137, 0, 0.92)
+
+[node name="CountdownLabel" type="Label" parent="HeadlinePopup"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -88.0
+offset_bottom = -34.0
+text = ""
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 0.231373, 0.188235, 1)
+horizontal_alignment = 1
+
+[node name="ETFInfoPanel" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="InfoModalBG" type="ColorRect" parent="ETFInfoPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.72)
+
+[node name="InfoCard" type="PanelContainer" parent="ETFInfoPanel"]
+layout_mode = 1
+anchor_left = 0.2
+anchor_top = 0.22
+anchor_right = 0.8
+anchor_bottom = 0.76
+
+[node name="InfoMargin" type="MarginContainer" parent="ETFInfoPanel/InfoCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="InfoColumn" type="VBoxContainer" parent="ETFInfoPanel/InfoCard/InfoMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="InfoTickerLabel" type="Label" parent="ETFInfoPanel/InfoCard/InfoMargin/InfoColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$CIQM"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+
+[node name="InfoNameLabel" type="Label" parent="ETFInfoPanel/InfoCard/InfoMargin/InfoColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CIQ Broad Market"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="InfoDescLabel" type="Label" parent="ETFInfoPanel/InfoCard/InfoMargin/InfoColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.72)
+
+[node name="InfoContextLabel" type="Label" parent="ETFInfoPanel/InfoCard/InfoMargin/InfoColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+
+[node name="InfoHint" type="Label" parent="ETFInfoPanel/InfoCard/InfoMargin/InfoColumn"]
+layout_mode = 2
+text = "Click outside this panel to return to the market."
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(1, 1, 1, 0.4)
+
+[node name="TransitionOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="TransitionShade" type="ColorRect" parent="TransitionOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.86)
+
+[node name="TransitionCard" type="PanelContainer" parent="TransitionOverlay"]
+layout_mode = 1
+anchor_left = 0.22
+anchor_top = 0.34
+anchor_right = 0.78
+anchor_bottom = 0.66
+
+[node name="TransitionMargin" type="MarginContainer" parent="TransitionOverlay/TransitionCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="TransitionColumn" type="VBoxContainer" parent="TransitionOverlay/TransitionCard/TransitionMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TransitionCycleLabel" type="Label" parent="TransitionOverlay/TransitionCard/TransitionMargin/TransitionColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "NEXT CYCLE 2 / 5"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0, 1, 0.254902, 1)
+horizontal_alignment = 1
+
+[node name="TransitionHeadlineLabel" type="Label" parent="TransitionOverlay/TransitionCard/TransitionMargin/TransitionColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+text = "Headline preview"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+horizontal_alignment = 1
+
+[node name="TransitionHint" type="Label" parent="TransitionOverlay/TransitionCard/TransitionMargin/TransitionColumn"]
+layout_mode = 2
+text = "Repricing the market..."
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.7)
+horizontal_alignment = 1
+
+[node name="LiquidationOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="LiquidationShade" type="ColorRect" parent="LiquidationOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0, 0, 0.92)
+
+[node name="LiquidationCard" type="PanelContainer" parent="LiquidationOverlay"]
+layout_mode = 1
+anchor_left = 0.2
+anchor_top = 0.24
+anchor_right = 0.8
+anchor_bottom = 0.76
+
+[node name="LiquidationMargin" type="MarginContainer" parent="LiquidationOverlay/LiquidationCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 26
+
+[node name="LiquidationColumn" type="VBoxContainer" parent="LiquidationOverlay/LiquidationCard/LiquidationMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LiquidationTitle" type="Label" parent="LiquidationOverlay/LiquidationCard/LiquidationMargin/LiquidationColumn"]
+layout_mode = 2
+text = "ACCOUNT LIQUIDATED"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 0.266667, 0.266667, 1)
+horizontal_alignment = 1
+
+[node name="LiquidationCycleLabel" type="Label" parent="LiquidationOverlay/LiquidationCard/LiquidationMargin/LiquidationColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Liquidated in cycle 1"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+horizontal_alignment = 1
+
+[node name="LiquidationValueLabel" type="Label" parent="LiquidationOverlay/LiquidationCard/LiquidationMargin/LiquidationColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "$0.00"
+theme_override_font_sizes/font_size = 34
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+horizontal_alignment = 1
+
+[node name="LiquidationBody" type="Label" parent="LiquidationOverlay/LiquidationCard/LiquidationMargin/LiquidationColumn"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Your cash plus open positions fell below the survival threshold. Restart to run the five-cycle simulation again."
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="LiquidationOverlay/LiquidationCard/LiquidationMargin/LiquidationColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 52)
+text = "RETURN TO START"

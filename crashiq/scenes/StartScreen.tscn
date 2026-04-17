@@ -1,0 +1,539 @@
+[gd_scene load_steps=12 format=3 uid="uid://crashiq_start"]
+
+[ext_resource type="Script" path="res://scripts/StartScreen.gd" id="1_start"]
+[ext_resource type="Script" path="res://scripts/NewsTicker.gd"  id="2_ticker"]
+
+[sub_resource type="StyleBoxFlat" id="SB_student"]
+bg_color = Color(0.035, 0.035, 0.035, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0, 1.0, 0.255, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="SB_youngpro"]
+bg_color = Color(0.035, 0.035, 0.035, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0, 0.749, 1.0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="SB_midcareer"]
+bg_color = Color(0.035, 0.035, 0.035, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1.0, 0.843, 0.0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="SB_veteran"]
+bg_color = Color(0.035, 0.035, 0.035, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1.0, 0.267, 0.267, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+; ── Bold monospace font for tier names, cash labels, and START buttons ────────
+[sub_resource type="SystemFont" id="SF_bold"]
+font_names = PackedStringArray("Courier New", "Consolas", "Lucida Console", "Courier", "monospace")
+font_style = 1
+hinting = 1
+generate_mipmaps = false
+multichannel_signed_distance_field = false
+
+; ── Button background StyleBoxes (card color at 15% opacity, no border) ───────
+[sub_resource type="StyleBoxFlat" id="SB_btn_student"]
+bg_color = Color(0.0, 1.0, 0.255, 0.15)
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="SB_btn_youngpro"]
+bg_color = Color(0.0, 0.749, 1.0, 0.15)
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="SB_btn_midcareer"]
+bg_color = Color(1.0, 0.843, 0.0, 0.15)
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="SB_btn_veteran"]
+bg_color = Color(1.0, 0.267, 0.267, 0.15)
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+
+; ── Root ──────────────────────────────────────────────────────────────────────
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_start")
+
+; Pure black background
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+; ── Main content column — left-aligned, 60px margin, 82% wide ─────────────────
+[node name="ContentVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 60
+offset_top = 40
+offset_right = -60
+offset_bottom = -120
+theme_override_constants/separation = 4
+
+; "DEFCON TRADING SYSTEM v2.6"
+[node name="DefconLabel" type="Label" parent="ContentVBox"]
+layout_mode = 2
+text = "DEFCON TRADING SYSTEM v2.6"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.0, 0.667, 0.133, 1)
+
+; Title row: "CrashIQ" + blinking cursor ▌
+[node name="TitleRow" type="HBoxContainer" parent="ContentVBox"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+; RichTextLabel so BBCode works — custom_minimum_size prevents zero-collapse
+[node name="TitleLabel" type="RichTextLabel" parent="ContentVBox/TitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(320, 90)
+fit_content = true
+scroll_active = false
+bbcode_enabled = true
+text = "CrashIQ"
+theme_override_font_sizes/normal_font_size = 72
+
+; Cursor Label — toggled visible every 0.5s in script
+[node name="TitleCursor" type="Label" parent="ContentVBox/TitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "▌"
+theme_override_font_sizes/font_size = 72
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+
+[node name="SubtitleLabel" type="Label" parent="ContentVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Geopolitical Crisis Trading Simulator"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+
+[node name="TaglineLabel" type="Label" parent="ContentVBox"]
+layout_mode = 2
+text = "Behavioral Finance  ·  Q-TPM Framework  ·  IRAN WAR 2026 EDITION"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1.0, 0.231, 0.188, 0.75)
+
+[node name="Gap2" type="Control" parent="ContentVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 28)
+
+[node name="SelectLabel" type="Label" parent="ContentVBox"]
+layout_mode = 2
+text = "► SELECT OPERATOR PROFILE:"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+
+[node name="Gap3" type="Control" parent="ContentVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 12)
+
+; ── Four tier cards ───────────────────────────────────────────────────────────
+[node name="CardsContainer" type="HBoxContainer" parent="ContentVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 160)
+theme_override_constants/separation = 16
+
+; ── STUDENT — green ───────────────────────────────────────────────────────────
+[node name="StudentCard" type="PanelContainer" parent="ContentVBox/CardsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SB_student")
+
+[node name="StudentInner" type="MarginContainer" parent="ContentVBox/CardsContainer/StudentCard"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="StudentContent" type="VBoxContainer" parent="ContentVBox/CardsContainer/StudentCard/StudentInner"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="StudentTier" type="Label" parent="ContentVBox/CardsContainer/StudentCard/StudentInner/StudentContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "STUDENT"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+
+[node name="StudentCash" type="Label" parent="ContentVBox/CardsContainer/StudentCard/StudentInner/StudentContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "$500 starting cash"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="StudentTimer" type="Label" parent="ContentVBox/CardsContainer/StudentCard/StudentInner/StudentContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "30 second timer"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="StudentNarrative" type="RichTextLabel" parent="ContentVBox/CardsContainer/StudentCard/StudentInner/StudentContent"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+text = "[b][color=#ffffff]First Robinhood account, learning basics[/color][/b]"
+theme_override_font_sizes/normal_font_size = 15
+autowrap_mode = 3
+
+[node name="StudentFill" type="Control" parent="ContentVBox/CardsContainer/StudentCard/StudentInner/StudentContent"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 6)
+size_flags_vertical = 3
+
+[node name="StudentBtn" type="Button" parent="ContentVBox/CardsContainer/StudentCard/StudentInner/StudentContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "START  →"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+theme_override_styles/normal = SubResource("SB_btn_student")
+theme_override_styles/hover = SubResource("SB_btn_student")
+theme_override_styles/pressed = SubResource("SB_btn_student")
+
+; ── YOUNG PRO — blue ──────────────────────────────────────────────────────────
+[node name="YoungProCard" type="PanelContainer" parent="ContentVBox/CardsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SB_youngpro")
+
+[node name="YoungProInner" type="MarginContainer" parent="ContentVBox/CardsContainer/YoungProCard"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="YoungProContent" type="VBoxContainer" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="YoungProTier" type="Label" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner/YoungProContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "YOUNG PRO"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0, 0.749, 1.0, 1)
+
+[node name="YoungProCash" type="Label" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner/YoungProContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "$5,000 starting cash"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="YoungProTimer" type="Label" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner/YoungProContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "20 second timer"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="YoungProNarrative" type="RichTextLabel" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner/YoungProContent"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+text = "[b][color=#ffffff]First job savings, real but limited risk[/color][/b]"
+theme_override_font_sizes/normal_font_size = 15
+autowrap_mode = 3
+
+[node name="YoungProFill" type="Control" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner/YoungProContent"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 6)
+size_flags_vertical = 3
+
+[node name="YoungProBtn" type="Button" parent="ContentVBox/CardsContainer/YoungProCard/YoungProInner/YoungProContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "START  →"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0, 0.749, 1.0, 1)
+theme_override_styles/normal = SubResource("SB_btn_youngpro")
+theme_override_styles/hover = SubResource("SB_btn_youngpro")
+theme_override_styles/pressed = SubResource("SB_btn_youngpro")
+
+; ── MID-CAREER — yellow ───────────────────────────────────────────────────────
+[node name="MidCareerCard" type="PanelContainer" parent="ContentVBox/CardsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SB_midcareer")
+
+[node name="MidCareerInner" type="MarginContainer" parent="ContentVBox/CardsContainer/MidCareerCard"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MidCareerContent" type="VBoxContainer" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="MidCareerTier" type="Label" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner/MidCareerContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "MID-CAREER"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1.0, 0.843, 0.0, 1)
+
+[node name="MidCareerCash" type="Label" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner/MidCareerContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "$25,000 starting cash"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="MidCareerTimer" type="Label" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner/MidCareerContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "15 second timer"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="MidCareerNarrative" type="RichTextLabel" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner/MidCareerContent"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+text = "[b][color=#ffffff]Family financial pressure, real stakes[/color][/b]"
+theme_override_font_sizes/normal_font_size = 15
+autowrap_mode = 3
+
+[node name="MidCareerFill" type="Control" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner/MidCareerContent"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 6)
+size_flags_vertical = 3
+
+[node name="MidCareerBtn" type="Button" parent="ContentVBox/CardsContainer/MidCareerCard/MidCareerInner/MidCareerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "START  →"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1.0, 0.843, 0.0, 1)
+theme_override_styles/normal = SubResource("SB_btn_midcareer")
+theme_override_styles/hover = SubResource("SB_btn_midcareer")
+theme_override_styles/pressed = SubResource("SB_btn_midcareer")
+
+; ── VETERAN — red ─────────────────────────────────────────────────────────────
+[node name="VeteranCard" type="PanelContainer" parent="ContentVBox/CardsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("SB_veteran")
+
+[node name="VeteranInner" type="MarginContainer" parent="ContentVBox/CardsContainer/VeteranCard"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VeteranContent" type="VBoxContainer" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="VeteranTier" type="Label" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner/VeteranContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "VETERAN"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1.0, 0.267, 0.267, 1)
+
+[node name="VeteranCash" type="Label" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner/VeteranContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "$100,000 starting cash"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="VeteranTimer" type="Label" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner/VeteranContent"]
+layout_mode = 2
+mouse_filter = 2
+text = "10 second timer"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="VeteranNarrative" type="RichTextLabel" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner/VeteranContent"]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+text = "[b][color=#ffffff]Most to lose, maximum panic pressure[/color][/b]"
+theme_override_font_sizes/normal_font_size = 15
+autowrap_mode = 3
+
+[node name="VeteranFill" type="Control" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner/VeteranContent"]
+layout_mode = 2
+mouse_filter = 2
+custom_minimum_size = Vector2(0, 6)
+size_flags_vertical = 3
+
+[node name="VeteranBtn" type="Button" parent="ContentVBox/CardsContainer/VeteranCard/VeteranInner/VeteranContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "START  →"
+theme_override_fonts/font = SubResource("SF_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1.0, 0.267, 0.267, 1)
+theme_override_styles/normal = SubResource("SB_btn_veteran")
+theme_override_styles/hover = SubResource("SB_btn_veteran")
+theme_override_styles/pressed = SubResource("SB_btn_veteran")
+
+; ── Keyboard navigation hint ──────────────────────────────────────────────────
+[node name="HintLabel" type="Label" parent="ContentVBox"]
+layout_mode = 2
+text = "◄  ►  NAVIGATE          ENTER  SELECT"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0, 0.5, 0.12, 1)
+horizontal_alignment = 0
+mouse_filter = 2
+
+; ── SYSTEM READY — absolutely positioned bottom-right, outside all layout containers
+[node name="SystemReadyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320
+offset_top = -60
+offset_right = -20
+offset_bottom = -20
+mouse_filter = 2
+text = "► SYSTEM READY"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+horizontal_alignment = 2
+
+; ── "INTEL FEED ►" label above ticker ────────────────────────────────────────
+[node name="IntelLabel" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.91
+anchor_right = 0.18
+anchor_bottom = 0.95
+offset_left = 8
+text = "INTEL FEED ►"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1.0, 0.267, 0.267, 1)
+
+; ── News ticker strip (bottom 6%) ─────────────────────────────────────────────
+[node name="TickerBar" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.94
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="NewsTicker" type="Control" parent="TickerBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("2_ticker")
+text_color = Color(1.0, 0.843, 0.0, 1)
+
+; ── Full-screen flicker overlay — topmost, never blocks input ─────────────────
+[node name="FlickerRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0)
+mouse_filter = 2

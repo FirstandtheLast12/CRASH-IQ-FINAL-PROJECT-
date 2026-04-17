@@ -1,0 +1,143 @@
+[gd_scene load_steps=4 format=3 uid="uid://crashiq_profile"]
+
+[ext_resource type="Script" path="res://scripts/ProfileScreen.gd"      id="1_prof"]
+[ext_resource type="Script" path="res://scripts/RadarChartControl.gd"  id="2_radar"]
+[ext_resource type="Script" path="res://scripts/PLChartControl.gd"     id="3_pl"]
+
+; ── Root ──────────────────────────────────────────────────────────────────────
+[node name="ProfileScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_prof")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.047, 0.047, 0.047, 1)
+
+[node name="RootMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MainRow" type="HBoxContainer" parent="RootMargin"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+; ── Left column: charts ────────────────────────────────────────────────────────
+[node name="LeftColumn" type="VBoxContainer" parent="RootMargin/MainRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="RadarTitle" type="Label" parent="RootMargin/MainRow/LeftColumn"]
+layout_mode = 2
+text = "BEHAVIORAL PATHWAY PROFILE"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 1, 1, 0.35)
+
+[node name="RadarChartNode" type="Control" parent="RootMargin/MainRow/LeftColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_minimum_size = Vector2(320, 300)
+script = ExtResource("2_radar")
+
+[node name="PLTitle" type="Label" parent="RootMargin/MainRow/LeftColumn"]
+layout_mode = 2
+text = "CYCLE P&L"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 1, 1, 0.35)
+
+[node name="PLChartNode" type="Control" parent="RootMargin/MainRow/LeftColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(320, 160)
+script = ExtResource("3_pl")
+
+; ── Right column: text ─────────────────────────────────────────────────────────
+[node name="RightColumn" type="VBoxContainer" parent="RootMargin/MainRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="ArchetypeLabel" type="Label" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "—"
+theme_override_font_sizes/font_size = 36
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="PathwaySignatureLabel" type="Label" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0, 0.784, 0.02, 1)
+
+[node name="DifficultyLabel" type="Label" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(1, 1, 1, 0.35)
+
+[node name="InterpSpacer" type="Control" parent="RootMargin/MainRow/RightColumn"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 6)
+
+[node name="InterpLabel" type="Label" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+
+[node name="DeltaSpacer" type="Control" parent="RootMargin/MainRow/RightColumn"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 6)
+
+[node name="DeltaLabel" type="Label" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(1, 1, 1, 0.55)
+
+[node name="BreakdownTitle" type="Label" parent="RootMargin/MainRow/RightColumn"]
+layout_mode = 2
+text = "PATHWAY AMPLITUDES"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 1, 1, 0.35)
+
+[node name="PathwayBreakdown" type="VBoxContainer" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+; Spacer pushes Play Again to the bottom
+[node name="BottomSpacer" type="Control" parent="RootMargin/MainRow/RightColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayAgainButton" type="Button" parent="RootMargin/MainRow/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "PLAY AGAIN"
+theme_override_font_sizes/font_size = 14

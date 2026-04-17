@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/DecisionPanel.gd" id="1_decision"]
+
+[node name="DecisionPanel" type="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+script = ExtResource("1_decision")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Choose Your Response"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="DefenseButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Defense"
+
+[node name="EnergyButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Energy"
+
+[node name="LiquidButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Liquid"
+
+[node name="RiskButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Risk"
+
+[node name="WaitButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Wait"

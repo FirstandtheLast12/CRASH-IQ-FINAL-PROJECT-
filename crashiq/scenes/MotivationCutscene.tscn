@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://crashiq_motiv01"]
+
+[ext_resource type="Script" path="res://scripts/MotivationCutscene.gd" id="1_motiv"]
+
+[node name="MotivationCutscene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_motiv")
+
+; Pure black background
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+; Narrative text — centered strip, generous horizontal margins
+[node name="NarrativeLabel" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.10
+anchor_top = 0.08
+anchor_right = 0.90
+anchor_bottom = 0.88
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+scroll_active = false
+fit_content = false
+theme_override_font_sizes/normal_font_size = 28
+theme_override_colors/default_color = Color(1.0, 0.843, 0.0, 1)
+
+; "PRESS SPACE TO CONTINUE" — Matrix green, pulses via script
+[node name="ContinueLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -52
+grow_vertical = 0
+text = "PRESS SPACE TO CONTINUE"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.0, 1.0, 0.255, 1)
+horizontal_alignment = 1
