@@ -1,3 +1,4 @@
 res://scripts/SimulationScreen.gd
 res://autoloads/SimulationManager.gd
 res://scripts/TradePanel.gd
+res://scenes/Main.tscn
