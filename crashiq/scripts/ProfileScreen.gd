@@ -53,6 +53,7 @@ func _ready() -> void:
 	var difficulty: String = SimulationManager.selected_difficulty
 
 	_radar.set_amplitudes(amplitudes)
+	_radar.set_dominant(dominant)
 	_pl.set_data(history, starting_cash)
 
 	_archetype_lbl.text = dominant.replace("_", " ")
