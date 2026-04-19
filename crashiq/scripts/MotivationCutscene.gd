@@ -54,20 +54,7 @@ func _ready():
 	text_label.offset_bottom = 150
 	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	continue_label = Label.new()
-	add_child(continue_label)
-
-	continue_label.text = "PRESS SPACE TO CONTINUE"
-	continue_label.anchor_left = 0.5
-	continue_label.anchor_right = 0.5
-	continue_label.anchor_top = 1
-	continue_label.anchor_bottom = 1
-	continue_label.offset_left = -200
-	continue_label.offset_right = 200
-	continue_label.offset_top = -60
-	continue_label.offset_bottom = -20
-	continue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	continue_label.add_theme_color_override("font_color", Color(0,1,0))
+	continue_label = $ContinueLabel
 	continue_label.modulate.a = 0.0
 
 	await type_text()
