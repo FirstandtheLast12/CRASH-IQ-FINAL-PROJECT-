@@ -1,7 +1,7 @@
 # CrashIQ — CLAUDE.md
 # Geopolitical Crisis Trading Simulator · Behavioral Finance · Q-TPM Framework
 # Godot 4.6 · Robinhood-style UI · Matrix Terminal Aesthetic
-# Last updated: April 2026
+# Last updated: April 18 2026
 
 ---
 
@@ -20,16 +20,16 @@ The game is playable end-to-end: StartScreen → Motivation → MarketIntro → 
 - autoloads/GlobalInput.gd — ESC handler stub
 - scripts/CrashCycle.gd — resource class for cycle data
 - scripts/HeadlinePopup.gd — breaking news overlay
-- scripts/TradePanel.gd — BUY/SELL/HOLD order entry with review popup (working)
 - scripts/NewsTicker.gd — scrolling ticker on StartScreen
 - scripts/CandlestickChart.gd — custom chart renderer with pulsing dot, cycle markers
-- scripts/RadarChartControl.gd — 6-axis TPM spider chart
 - scripts/PLChartControl.gd — portfolio P&L line chart
 - scripts/TPMResultsScreen.gd — classification, explanation, decision log
-- scripts/ProfileScreen.gd — radar chart, P&L chart, pathway breakdown, learning delta
 
 ### ACTIVE / RECENTLY MODIFIED:
 - scripts/SimulationScreen.gd — main gameplay controller (see session history below)
+- scripts/TradePanel.gd — BUY/SELL/HOLD order entry; trade math fix applied April 18 2026
+- scripts/RadarChartControl.gd — 6-axis TPM spider chart; per-pathway color system added April 18 2026
+- scripts/ProfileScreen.gd — radar chart, P&L chart, pathway breakdown, learning delta
 
 ### REMAINING WORK:
 - Session 3: Cycle transition polish + bankruptcy edge case review
@@ -37,6 +37,7 @@ The game is playable end-to-end: StartScreen → Motivation → MarketIntro → 
 - Session 5: CRT scanline overlay pass
 - Session 5: Export / packaging
 - Bug fix pending: TPM pathway descriptions for VALUE_DRIVEN and RULING_GUIDE are swapped in CrashIQ_Project_Context.md (does not affect runtime, is a documentation error)
+- Radar chart: colors defined for EXPEDIENT only. Remaining 5 pathways (ANALYTICAL, VALUE_DRIVEN, RULING_GUIDE, REVISIONIST, GLOBAL) each need a distinct color assigned in the per-pathway color system (see RadarChartControl.gd section below).
 
 ---
 
@@ -66,12 +67,15 @@ The definitions above are correct. The code in BehaviorTracker.gd is correct.
 ---
 
 ## Difficulty Tiers
-| Tier         | Starting Cash | Decision Timer |
-|--------------|---------------|----------------|
-| Student      | $500          | 30 seconds     |
-| Young Pro    | $5,000        | 20 seconds     |
-| Mid-career   | $25,000       | 15 seconds     |
-| Veteran      | $100,000      | 10 seconds     |
+| Tier         | Starting Cash | Decision Timer              |
+|--------------|---------------|-----------------------------|
+| Student      | $500          | None (timer removed)        |
+| Young Pro    | $5,000        | None (timer removed)        |
+| Mid-career   | $25,000       | None (timer removed)        |
+| Veteran      | $100,000      | None (timer removed)        |
+
+Timer was removed in April 2026. All DIFFICULTY timer values in SimulationManager are 0.0.
+`get_trading_time_remaining()` always returns 0.0. Player ends the cycle by pressing END CYCLE.
 
 ---
 
@@ -185,6 +189,73 @@ condition between the banner and the scene change.
 FIXED double-counting bug: was computing total = get_cash() + get_portfolio_value()
 which counted cash twice. Now correctly uses total = get_portfolio_value() only.
 pnl_label modulate colors updated to Color("00ff41") / Color("ff4444") to match project standard.
+
+---
+
+## TradePanel.gd — Trade Execution Math Fix (April 18 2026)
+
+### The Bug
+`_build_trade_data()` was setting `quantity = _get_quantity_value()` which returns `dollars / price`
+(i.e. shares), while simultaneously setting `quantity_mode = "DOLLARS"`. SimulationManager then
+treated that shares number as a dollar amount and divided by price again, resulting in a
+double-division. Buying $250 of CIQM (~$92/share) only deducted ~$2.72 from cash instead of $250.
+
+### The Fix (line 204)
+```gdscript
+# BEFORE (wrong — double-divides):
+var quantity_value: float = _get_quantity_value() if use_dollars else maxf(_quantity_input.text.to_float(), 0.0)
+
+# AFTER (correct — raw user input, SimulationManager handles the conversion):
+var quantity_value: float = maxf(_quantity_input.text.to_float(), 0.0)
+```
+
+`quantity` now equals the raw user input: dollars in DOLLARS mode, share count in SHARES mode.
+SimulationManager's `get_order_estimate()` and `_apply_trade()` already correctly interpret
+`quantity` based on `quantity_mode`. Fix applies to all ETFs, all cycles, all difficulty tiers.
+
+---
+
+## RadarChartControl.gd — Per-Pathway Color System (April 18 2026)
+
+### What Was Added
+`RadarChartControl` now supports per-dominant-pathway coloring with pulse animation.
+Call `set_dominant(pathway: String)` after `set_amplitudes()` to activate.
+
+### New API
+```gdscript
+func set_dominant(pathway: String) -> void   # call from ProfileScreen after set_amplitudes()
+```
+
+### How It Works
+- `_dominant: String` stores the classified pathway name (e.g. "EXPEDIENT")
+- `_pulse_t: float` accumulates in `_process()` only when dominant pathway is active
+- `_draw()` computes `exp_active` and `color_exp` (pulsing RGBA) at the top, then:
+  - Spoke for the dominant axis → colored and pulsing
+  - Two polygon edges touching the dominant vertex → colored and thicker (2.5px)
+  - Vertex dot at dominant axis → pulsing radius
+  - Axis label for dominant pathway → same color
+  - Center dot → dominant color, pulsing radius (drawn last, on top of everything)
+  - All other elements draw normally in standard green
+
+### EXPEDIENT Color (currently the only pathway with a custom color)
+```gdscript
+Color(1.0, 0.267, 0.267, pulse_alpha)   # red, pulsing alpha 0.60–1.00 at 3 rad/s
+```
+Chosen to signal "danger / panic decision" — red + pulsing communicates urgency.
+
+### Extending to Other Pathways
+To add colors for ANALYTICAL, VALUE_DRIVEN, RULING_GUIDE, REVISIONIST, GLOBAL:
+1. Replace the `exp_idx` / `exp_active` / `color_exp` locals with a lookup from a
+   `PATHWAY_COLORS: Dictionary` keyed by pathway name.
+2. Each entry needs a Color. Pulse can be shared or per-pathway.
+3. The drawing logic (spokes, edges, dots, label, center) already uses those locals —
+   changing the lookup is the only structural change needed.
+
+### ProfileScreen.gd Change
+One line added after `_radar.set_amplitudes(amplitudes)`:
+```gdscript
+_radar.set_dominant(dominant)
+```
 
 ---
 
