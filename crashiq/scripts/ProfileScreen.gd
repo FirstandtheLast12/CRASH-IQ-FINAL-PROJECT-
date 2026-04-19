@@ -98,18 +98,8 @@ func _build_breakdown(amplitudes: Dictionary, dominant: String) -> void:
 		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		bar.show_percentage = false
 
-		var pct_lbl: Label = Label.new()
-		pct_lbl.text = "%d%%" % roundi(amplitude * 100.0)
-		pct_lbl.custom_minimum_size = Vector2(36, 0)
-		pct_lbl.add_theme_font_size_override("font_size", 11)
-		pct_lbl.add_theme_color_override(
-			"font_color",
-			Color("00c805") if is_dominant else Color(1, 1, 1, 0.4)
-		)
-
 		row.add_child(name_lbl)
 		row.add_child(bar)
-		row.add_child(pct_lbl)
 		_breakdown.add_child(row)
 
 func _on_play_again() -> void:
