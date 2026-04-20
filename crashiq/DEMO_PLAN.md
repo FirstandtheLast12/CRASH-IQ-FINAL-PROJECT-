@@ -161,10 +161,10 @@ P → D. The two fastest stages. Everything in between is skipped.
 Headline: US and Israel launch airstrikes on Iran.
 CIQM opens at $92.00
 
-INPUT: Action = BUY | ETF = CIQM | Amount = $400 | Press Confirm → Press END CYCLE
+INPUT: Action = BUY | Mode = DOLLARS | ETF = CIQM | Amount = 400 | Confirm → END CYCLE
 
-Result: 4.3478 shares CIQM at $92.00
-Cash: $100.00 | CIQM: 4.3478 shares | Portfolio: $500.00
+Result: ~4.3478 shares CIQM purchased at $92.00
+Cash: $100.00 | CIQM position open | Portfolio: $500.00
 
 Say: "War starts. Broad market is already falling. No research. We buy in. P to D."
 
@@ -176,9 +176,9 @@ C1 score: EXPEDIENT (no panel opened)
 Headline: Iran closes Strait. 20% of global oil cut off.
 CIQM opens at $96.60 (+5% bounce) | CIQE opens at $120.96 (+35%)
 
-INPUT: No trade → Press END CYCLE
+INPUT: No trade → END CYCLE
 
-Result: Cash $100.00 | CIQM: 4.3478 shares @ $96.60 = $420.21 | Portfolio: $520.21
+Result: Cash $100.00 | CIQM position @ $96.60 = $420.00 | Portfolio: $520.00
 
 Say: "Strait closes. Too scary. We freeze. CIQE went from $89 to $121 — we missed it.
 CIQM actually bounced this cycle. We did not notice."
@@ -191,27 +191,27 @@ C2 score: EXPEDIENT (no panel opened)
 Headline: China warns US. Saudi oil facilities struck.
 CIQM opens at $79.21 — below the $92.00 we paid
 
-INPUT: Action = SELL | ETF = CIQM | Amount = ALL SHARES | Press Confirm → Press END CYCLE
+INPUT: Action = SELL | Mode = DOLLARS | ETF = CIQM | Amount = ALL SHARES | Confirm → END CYCLE
+(For a full sell, enter the full dollar value of your position shown on screen, or use shares mode and enter your share count)
 
-Result: 4.3478 shares × $79.21 = $344.38 received
-Cash: $100.00 + $344.38 = $444.38 | Portfolio: $444.38
+Result: Full CIQM position sold at $79.21 = $344.40 received
+Cash: $100.00 + $344.40 = $444.40 | Portfolio: $444.40
 
 Say: "China enters. CIQM is below what we paid. Panic sell. Bought at $92, sold at $79.
 CIQE is at $145 right now — up 62% from the start. We have none of it."
 
-C3 realized loss: -$55.62 on CIQM position
 C3 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### CYCLE 4 — Ground Invasion
 Headline: 82nd Airborne deployed. Ground invasion begins.
-CIQM opens at $69.70 — down 31% from the $100 start
+CIQM opens at $69.70
 
-INPUT: Action = BUY | ETF = CIQM | Amount = $300 | Press Confirm → Press END CYCLE
+INPUT: Action = BUY | Mode = DOLLARS | ETF = CIQM | Amount = 300 | Confirm → END CYCLE
 
-Result: 4.3042 shares CIQM at $69.70
-Cash: $144.38 | CIQM: 4.3042 shares | Portfolio: $444.38
+Result: ~4.3042 shares CIQM purchased at $69.70
+Cash: $144.40 | CIQM position open | Portfolio: $444.40
 
 Say: "Down 31 percent from the start. Looks cheap. We buy back in.
 We sold at $79. We are now buying at $69. This is the retail trap."
@@ -224,23 +224,22 @@ C4 score: EXPEDIENT (no panel opened)
 Headline: Iran mines Persian Gulf. Global recession declared.
 CIQM opens at $52.28 — our C4 buy was at $69.70
 
-INPUT: Action = SELL | ETF = CIQM | Amount = ALL SHARES | Press Confirm → Press END CYCLE
+INPUT: Action = SELL | Mode = DOLLARS | ETF = CIQM | Amount = ALL SHARES | Confirm → END CYCLE
 
-Result: 4.3042 shares × $52.28 = $225.07 received
-Cash: $144.38 + $225.07 = $369.45 | Portfolio: $369.45
+Result: Full CIQM position sold at $52.28 = $225.00 received
+Cash: $144.40 + $225.00 = $369.40 | Portfolio: $369.40
 
 Say: "Gulf mined. Recession. We sell again. Bought at $69, sold at $52. Second loss.
 CIQE finished at $187 — up 134% from the start. We never held it once."
 
-C5 realized loss: -$75.13 on CIQM position
 C5 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### DEMO 1 RESULT
 Starting cash:   $500.00
-Final portfolio: $369.45
-Loss:            -$130.55 (-26.1%)
+Final portfolio: $369.40
+Loss:            -$130.60 (-26.1%)
 TPM Profile:     EXPEDIENT — Impulse Trader
 Classification:  "You moved fast and skipped analysis. Decisions fired before
                   the full picture settled — speed dominated over deliberation."
