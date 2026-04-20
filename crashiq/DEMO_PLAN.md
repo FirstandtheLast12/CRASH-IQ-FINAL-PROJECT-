@@ -24,32 +24,27 @@ Pathway arc across the four demos:
 
 ---
 
-## CRITICAL: ONE CODE FIX REQUIRED BEFORE DEMOS 2 AND 3
+## CODE FIXES — APPLIED (April 2026)
 
-BehaviorTracker.record_info_panel_opened() is never called from SimulationScreen.gd.
-Without this fix, info_panel_opened is always false — ANALYTICAL and REVISIONIST
-pathways cannot classify correctly.
+Fix 1 — APPLIED: BehaviorTracker.record_info_panel_opened() added to SimulationScreen.gd
+  Location: SimulationScreen._on_chart_info_requested(), line after _select_ticker(ticker)
+  Effect: info_panel_opened now correctly tracks when the player clicks a chart.
+  Demos unblocked: Demo 2 (ANALYTICAL) and Demo 3 (REVISIONIST).
 
-Fix location: SimulationScreen.gd, function _on_chart_info_requested()
-Add ONE LINE after _select_ticker(ticker):
-
-    func _on_chart_info_requested(ticker: String) -> void:
-        _select_ticker(ticker)
-        BehaviorTracker.record_info_panel_opened(ticker)   # ADD THIS LINE
-        _info_ticker_label.text = "$" + ticker
-        ...
-
-Demo 1 (Expedient) and Demo 4 (Value_Driven) work WITHOUT this fix.
-Demo 2 (Analytical) and Demo 3 (Revisionist) require this fix to classify correctly.
+Fix 2 — APPLIED: EXPEDIENT time threshold removed from BehaviorTracker._score_cycle()
+  Old: EXPEDIENT required time_to_decide < 5.0s AND no info panel
+  New: EXPEDIENT scores 1.0 if no info panel opened (any speed)
+  ANALYTICAL time threshold kept (> 10s for 1.0, > 5s for 0.5 partial)
+  Effect: Demo 1 (EXPEDIENT) now classifies correctly without timing pressure during narration.
+  Demo 4 (VALUE_DRIVEN) still works — see "Why Timing Still Matters for Demo 4" below.
 
 ---
 
 ## BUG CATALOG — Do Not Fix Yet
 
-Bug 1: record_info_panel_opened() missing from SimulationScreen._on_chart_info_requested()
-  Impact: Analytical and Revisionist pathways never classify. info_panel_opened always false.
-  Fix: One line — see CRITICAL section above.
-  Demos affected: Demo 2, Demo 3.
+Bug 1: FIXED (April 2026). record_info_panel_opened() added to SimulationScreen._on_chart_info_requested().
+  Was: info_panel_opened always false — ANALYTICAL and REVISIONIST could never classify.
+  Now: Fixed with one line: BehaviorTracker.record_info_panel_opened(ticker).
 
 Bug 2: CLAUDE.md cycle change values do not match ETF_DATA in SimulationManager.gd
   Impact: Documentation confusion only. Pricing at runtime is correct.
@@ -62,25 +57,18 @@ Bug 3: CrashCycle.etf_changes set in _build_cycles() does not match ETF_DATA.cyc
   Fix: Align CrashCycle.etf_changes with ETF_DATA or remove the field from _build_cycles.
   Demos affected: None (runtime unaffected).
 
-Bug 4: EXPEDIENT and ANALYTICAL scoring thresholds rely on time_to_decide but timer was removed.
-  Location: BehaviorTracker._score_cycle()
-  Detail: EXPEDIENT requires time_to_decide < 5.0s. ANALYTICAL requires time_to_decide > 10.0s.
-  These thresholds were calibrated for a timed game (30s/20s/15s/10s per difficulty).
-  Timer was removed April 2026 — all decisions are now wall-clock timed from trading_opened
-  to first confirm_trade. During a live presentation with narration, the presenter will
-  naturally exceed 8 seconds, making EXPEDIENT unscorable (scores 0) and ANALYTICAL
-  trivially satisfied by any slow pace regardless of intent.
-  Fix when ready: Remove time_to_decide from EXPEDIENT/ANALYTICAL conditions. Use
-  info_panel_opened as the sole differentiator — EXPEDIENT = no panel, ANALYTICAL = panel.
-  Demos affected: Demo 1 (Expedient will not classify if presenter narrates during trading).
-  Workaround for demo: Presenter must click Confirm within 5 seconds during Expedient cycles.
-  No narration during trading phase — narrate before SPACE is pressed or after END CYCLE.
+Bug 4: FIXED (April 2026).
+  EXPEDIENT time threshold removed — now scores purely on no info panel (any speed).
+  ANALYTICAL time threshold kept (> 10s for 1.0, > 5s for 0.5 partial) so VALUE_DRIVEN
+  can still dominate Demo 4 when the presenter stays under 10s per cycle.
+  Demo 1 now narrates freely without any timing pressure.
+  Demo 4 sweet spot: open CIQD panel, confirm within 8-9s → ANALYTICAL = 0.5, VALUE_DRIVEN = 1.0.
 
 ---
 
 ## BEFORE YOU START — Setup Checklist
 
-- Bug 1 fix applied (required for Demo 2 and Demo 3)
+- Both code fixes already applied (April 2026) — no pre-demo code changes needed
 - Game open on StartScreen, fullscreen or maximized
 - This document open on phone or second screen
 - Know the flow: SPACE to open markets after headline, END CYCLE to close the cycle
@@ -124,8 +112,7 @@ KEY MOVEMENTS TO NARRATE:
 
 ## BEHAVIORTRACKER SCORING REFERENCE (from BehaviorTracker._score_cycle())
 
-EXPEDIENT (1.0):    time_to_decide < 5.0s AND info_panel NOT opened
-                    Partial (0.5) if time < 8.0s and no info panel
+EXPEDIENT (1.0):    info_panel NOT opened (any speed — time_to_decide removed)
 
 ANALYTICAL (1.0):   info_panel WAS opened AND time_to_decide > 10.0s
                     Partial (0.5) if info opened AND time > 5.0s
@@ -165,111 +152,95 @@ The panic investor. Perception collapses directly into Decision.
 No information gathering. No judgment. Pure emotional reaction to headlines.
 P → D. The two fastest stages. Everything in between is skipped.
 
-### Behavioral Requirements Each Cycle
-- Do NOT click any chart to open info panels
-- Confirm every trade or press END CYCLE within 3 seconds of trading opening
-  (scoring threshold is 5s — stay well under it)
-- React to the headline alone. No deliberation visible to the audience.
-- Works WITHOUT the info panel bug fix.
+### Rule: Do NOT open any chart panel. EXPEDIENT scores when no info panel is opened.
+### Narrate before pressing SPACE to open markets or after pressing END CYCLE — not during.
 
 ---
 
 ### CYCLE 1 — Operation Epic Fury
 Headline: US and Israel launch airstrikes on Iran.
-CIQM opens at $92.00 (was $100 — already down 8%).
+CIQM opens at $92.00
 
-PERCEPTION: War started. Market already falling.
-DECISION: BUY CIQM $400 — within 3 seconds. No chart opened.
+INPUT: Action = BUY | ETF = CIQM | Amount = $400 | Press Confirm → Press END CYCLE
 
-Trade: BUY CIQM $400 → 4.35 shares at $92.00
-Cash: $100.00 | CIQM: 4.35 shares | Portfolio: $500.00
-Press END CYCLE.
+Result: 4.3478 shares CIQM at $92.00
+Cash: $100.00 | CIQM: 4.3478 shares | Portfolio: $500.00
 
-Say: "The headline hits. Broad market is falling. No research.
-We buy in immediately. P arrow D. That is all this investor does."
+Say: "War starts. Broad market is already falling. No research. We buy in. P to D."
 
-C1 score: EXPEDIENT (time < 3s, no info panel)
+C1 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### CYCLE 2 — Strait of Hormuz Closes
 Headline: Iran closes Strait. 20% of global oil cut off.
-CIQM opens at $96.60 — it BOUNCED. Energy (CIQE) is at $120.96, up 35%.
+CIQM opens at $96.60 (+5% bounce) | CIQE opens at $120.96 (+35%)
 
-PERCEPTION: Scary headline. Paralysis.
-DECISION: HOLD — press END CYCLE within 3 seconds.
+INPUT: No trade → Press END CYCLE
 
-Say: "Strait closes. Panic. We freeze. We do nothing.
-Energy went from $89 to $121 — up 35% — and we missed all of it.
-Our CIQM actually bounced this cycle. We did not notice."
+Result: Cash $100.00 | CIQM: 4.3478 shares @ $96.60 = $420.21 | Portfolio: $520.21
 
-Cash: $100.00 | CIQM: 4.35 shares @ $96.60 = $420.00
-Portfolio after C2: $520.00 (+$20 paper gain, not realized)
-C2 score: EXPEDIENT (END CYCLE within 3s, no info panel)
+Say: "Strait closes. Too scary. We freeze. CIQE went from $89 to $121 — we missed it.
+CIQM actually bounced this cycle. We did not notice."
+
+C2 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### CYCLE 3 — China Warns
 Headline: China warns US. Saudi oil facilities struck.
-CIQM opens at $79.21 — now BELOW our $92 buy price.
+CIQM opens at $79.21 — below the $92.00 we paid
 
-PERCEPTION: China entering. Market below cost. Panic.
-DECISION: SELL all CIQM — within 3 seconds.
+INPUT: Action = SELL | ETF = CIQM | Amount = ALL SHARES | Press Confirm → Press END CYCLE
 
-Trade: SELL all CIQM → 4.35 shares at $79.21 = $344.38
-Cash: $100 + $344.38 = $444.38 | Portfolio: $444.38
+Result: 4.3478 shares × $79.21 = $344.38 received
+Cash: $100.00 + $344.38 = $444.38 | Portfolio: $444.38
 
-Say: "China enters. CIQM is below what we paid.
-Panic sell. We locked in a loss. Bought at $92, sold at $79.
+Say: "China enters. CIQM is below what we paid. Panic sell. Bought at $92, sold at $79.
 CIQE is at $145 right now — up 62% from the start. We have none of it."
 
-C3 P&L: -$75.62 (loss realized)
-C3 score: EXPEDIENT (SELL within 3s, no info panel)
+C3 realized loss: -$55.62 on CIQM position
+C3 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### CYCLE 4 — Ground Invasion
 Headline: 82nd Airborne deployed. Ground invasion begins.
-CIQM opens at $69.70 — still falling.
+CIQM opens at $69.70 — down 31% from the $100 start
 
-PERCEPTION: CIQM is down from $100 to $69. Looks cheap.
-DECISION: BUY CIQM $300 — within 3 seconds.
+INPUT: Action = BUY | ETF = CIQM | Amount = $300 | Press Confirm → Press END CYCLE
 
-Trade: BUY CIQM $300 → 4.30 shares at $69.70
-Cash: $144.38 | CIQM: 4.30 shares | Portfolio: $444.38
+Result: 4.3042 shares CIQM at $69.70
+Cash: $144.38 | CIQM: 4.3042 shares | Portfolio: $444.38
 
-Say: "It has dropped 31 percent from the start. Looks cheap.
-We buy back in — the same ETF we just panic sold at $79.
+Say: "Down 31 percent from the start. Looks cheap. We buy back in.
 We sold at $79. We are now buying at $69. This is the retail trap."
 
-C4 score: EXPEDIENT (BUY within 3s, no info panel)
+C4 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### CYCLE 5 — Gulf Mined
 Headline: Iran mines Persian Gulf. Global recession declared.
-CIQM opens at $52.28 — still falling. We are holding at $69.70 cost.
+CIQM opens at $52.28 — our C4 buy was at $69.70
 
-PERCEPTION: Gulf mined. Recession. Panic.
-DECISION: SELL all CIQM — within 3 seconds.
+INPUT: Action = SELL | ETF = CIQM | Amount = ALL SHARES | Press Confirm → Press END CYCLE
 
-Trade: SELL all CIQM → 4.30 shares at $52.28 = $224.80
-Cash: $144.38 + $224.80 = $369.18
-Press END CYCLE.
+Result: 4.3042 shares × $52.28 = $225.07 received
+Cash: $144.38 + $225.07 = $369.45 | Portfolio: $369.45
 
-Say: "Gulf mined. Recession. We sell again.
-Bought at $69. Sold at $52. Second loss locked in.
+Say: "Gulf mined. Recession. We sell again. Bought at $69, sold at $52. Second loss.
 CIQE finished at $187 — up 134% from the start. We never held it once."
 
-C5 P&L: -$75.20 (second realized loss)
-C5 score: EXPEDIENT
+C5 realized loss: -$75.13 on CIQM position
+C5 score: EXPEDIENT (no panel opened)
 
 ---
 
 ### DEMO 1 RESULT
 Starting cash:   $500.00
-Final portfolio: $369.18
-Loss:            -$130.82 (-26.2%)
+Final portfolio: $369.45
+Loss:            -$130.55 (-26.1%)
 TPM Profile:     EXPEDIENT — Impulse Trader
 Classification:  "You moved fast and skipped analysis. Decisions fired before
                   the full picture settled — speed dominated over deliberation."
@@ -277,7 +248,7 @@ Classification:  "You moved fast and skipped analysis. Decisions fired before
 Closing statement for Demo 1:
 "The Expedient pathway. P arrow D. Five cycles, five headline reactions,
 zero information consulted. We lost 26 percent not from bad luck —
-from a pattern. The quantum state collapsed at maximum speed every time."
+from a pattern. The quantum state collapsed without deliberation every time."
 
 ---
 
@@ -592,16 +563,24 @@ CIQD drops -8% in C2 (profit-taking). The Veteran adds to their position.
 - See the headline first (do NOT click chart as first action — keeps first_action = HEADLINE)
   This distinguishes VALUE_DRIVEN (P first) from REVISIONIST (I first)
 - Then open the CIQD chart panel (I — information check)
-- Pause 5-8 seconds — not under 5 (avoids EXPEDIENT), not over 10 (avoids ANALYTICAL)
+  Opening a panel sets info_panel_opened = true, which scores ANALYTICAL not EXPEDIENT.
+  VALUE_DRIVEN scores on top of that via the same-ETF rule — both can be non-zero.
 - Trade CIQD every cycle — BUY in C1 through C4, SELL in C5
   Same ETF every cycle is what scores VALUE_DRIVEN
 - Open only 1 panel per cycle (avoids GLOBAL which needs 3+)
 - Works WITHOUT the info panel bug fix (VALUE_DRIVEN does not depend on info_panel tracking).
 
-### Behavioral Sweet Spot
-  Decision time: 5-8 seconds    (past Expedient threshold, under Analytical threshold)
-  Panels opened: 1 per cycle    (under Global threshold of 3)
-  ETF traded:    CIQD every time (this is the VALUE_DRIVEN trigger)
+### Why Timing Still Matters for Demo 4
+Opening the panel each cycle triggers ANALYTICAL scoring (info_opened = true).
+If the presenter takes > 10s before confirming, ANALYTICAL = 1.0 each cycle → avg 1.0.
+VALUE_DRIVEN averages 0.80 (4/5 cycles). ANALYTICAL would dominate.
+
+The ANALYTICAL time threshold was kept specifically to create a sweet spot for VALUE_DRIVEN:
+  Under 9s per cycle: ANALYTICAL = 0.5 (partial), VALUE_DRIVEN = 1.0 → VALUE_DRIVEN wins
+  Over 10s per cycle: ANALYTICAL = 1.0, VALUE_DRIVEN = 1.0 → tied or ANALYTICAL wins
+
+Demo 4 cheat: narrate your one-sentence thesis while clicking confirm — keep each cycle under 9s.
+"Headline → open CIQD panel → one sentence → confirm" is approximately 6-8 seconds naturally.
 
 ---
 
@@ -610,7 +589,7 @@ CIQD opens at $103.50 (up 15%). Crash cycle (CIQM -8%).
 
 PERCEPTION: War started. Military escalation.
 INFORMATION: Click CIQD chart. See +15%. Defense rising.
-JUDGMENT (5-8 seconds, narrate): "Defense always rises in the first wave of military
+JUDGMENT (under 9 seconds, narrate): "Defense always rises in the first wave of military
 escalation. This is the same pattern we have seen in every conflict.
 The thesis is confirmed."
 DECISION: BUY CIQD $30,000, Confirm. END CYCLE.
@@ -631,7 +610,7 @@ CIQD opens at $95.22 — dropped -8%. Profit-taking after initial shock.
 
 PERCEPTION: Strait closes. Defense pulled back.
 INFORMATION: Click CIQD chart. See -8% dip.
-JUDGMENT (5-8 seconds): "Profit-taking, not a trend change.
+JUDGMENT (under 9 seconds): "Profit-taking, not a trend change.
 The war is escalating. Defense contracts are being written right now.
 The dip does not change the thesis. It is an entry point."
 DECISION: BUY CIQD $20,000, Confirm. END CYCLE.
@@ -657,7 +636,7 @@ CIQD opens at $119.03 (+25%). Thesis accelerating.
 
 PERCEPTION: China enters. Escalation deepens.
 INFORMATION: Click CIQD chart. See +25%. Defense rising strongly.
-JUDGMENT (5-8 seconds): "China entering means this conflict is multi-front.
+JUDGMENT (under 9 seconds): "China entering means this conflict is multi-front.
 Defense spending across multiple nations accelerates. Thesis strengthens."
 DECISION: BUY CIQD $15,000, Confirm. END CYCLE.
 
@@ -676,7 +655,7 @@ CIQD opens at $154.74 (+30%). Boots on ground.
 
 PERCEPTION: Ground invasion confirmed.
 INFORMATION: Click CIQD chart. See +30%. Thesis at peak performance.
-JUDGMENT (5-8 seconds): "Ground forces in the field. Massive logistics and
+JUDGMENT (under 9 seconds): "Ground forces in the field. Massive logistics and
 equipment demand. Defense is in full contract mode. One more add."
 DECISION: BUY CIQD $10,000, Confirm. END CYCLE.
 
@@ -695,7 +674,7 @@ CIQD opens at $177.95 (+15%). Gulf mined. Recession.
 
 PERCEPTION: Gulf mined. Maximum escalation. Thesis complete.
 INFORMATION: Click CIQD chart. See +15%. Defense still rising.
-JUDGMENT (5-8 seconds): "We have ridden this thesis from $103 to $177.
+JUDGMENT (under 9 seconds): "We have ridden this thesis from $103 to $177.
 Recession is declared. The escalation arc has reached its terminal point.
 Time to take profits. Rule says: execute the exit."
 DECISION: SELL all CIQD, Confirm. END CYCLE.
@@ -786,10 +765,10 @@ Demo 3 adds the contrarian narrative and the "wrong call" teaching moment.
 
 ## DEMO DAY BEHAVIORAL CHEAT SHEET
 
-EXPEDIENT (Student): No panels. Confirm within 3 seconds every cycle.
+EXPEDIENT (Student): No panels. Confirm at any speed (no timing pressure).
 ANALYTICAL (Young Pro): Open panel. Wait 10+ seconds. Confirm. 1-2 panels max.
 REVISIONIST (Mid-career): Click chart FIRST in C1 and C4. Click dark backdrop. Then BUY.
-VALUE_DRIVEN (Veteran): See headline first. THEN open CIQD panel. 5-8 seconds. Always CIQD.
+VALUE_DRIVEN (Veteran): See headline first. THEN open CIQD panel. Confirm within 9s. Always CIQD.
 
 REVISIONIST "info first" only needed in: C1 and C4 (crash cycles with BUY action)
 VALUE_DRIVEN same-ETF rule:             CIQD in every cycle — BUY C1 through C4, SELL C5
@@ -808,8 +787,8 @@ If a trade fails to execute:
   Verify shares are held before SELL.
 
 If profile screen shows wrong pathway:
-  Check: was the info panel bug fix applied? (Required for Demo 2 and 3.)
   Check: did you follow the behavioral sequence precisely?
+  For Demo 4 (VALUE_DRIVEN): did each cycle stay under 9 seconds? (Info panel + >10s = ANALYTICAL wins)
   Frame positively: "The detection is sensitive — it caught a real deviation.
   That is the system working as designed."
 
