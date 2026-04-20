@@ -92,6 +92,7 @@ func _on_trading_opened(_time_limit: float) -> void:
 		_selected_ticker = SimulationManager.get_etf_order()[0]
 	_action = "BUY"
 	_quantity_mode = "DOLLARS"
+	use_dollars = true
 	_quantity_input.text = ""
 	_status_label.text = "Orders execute at market price. Fractional shares enabled."
 	_close_review_popup()
