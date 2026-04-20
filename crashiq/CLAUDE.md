@@ -278,6 +278,37 @@ _radar.set_dominant(dominant)
    VALUE_DRIVEN is described as "P-I-J-D Full deliberator" (belongs to RULING_GUIDE).
    The two descriptions are swapped. Code is correct. Only the context doc needs fixing.
 
+5. OPEN: BehaviorTracker.record_info_panel_opened() is never called from SimulationScreen.gd.
+   Location: SimulationScreen._on_chart_info_requested() — missing one line call.
+   Impact: info_panel_opened is always false. ANALYTICAL and REVISIONIST pathways can never
+   classify correctly. RULING_GUIDE and GLOBAL are also affected.
+   Fix: Add BehaviorTracker.record_info_panel_opened(ticker) inside _on_chart_info_requested()
+   after the _select_ticker(ticker) call.
+
+6. OPEN: EXPEDIENT and ANALYTICAL scoring thresholds rely on time_to_decide but timer removed.
+   Location: BehaviorTracker._score_cycle()
+   Detail: EXPEDIENT requires time_to_decide < 5.0s. ANALYTICAL requires time_to_decide > 10.0s.
+   Timer was removed April 2026. All decisions now rely on wall-clock time from trading_opened
+   to first confirm_trade. During normal play or a live demo with narration, the presenter
+   will exceed 8 seconds, making EXPEDIENT unscorable and ANALYTICAL trivially satisfied.
+   Fix: Remove time_to_decide conditions from EXPEDIENT and ANALYTICAL scoring. Use
+   info_panel_opened as the sole differentiator — EXPEDIENT = no panel opened,
+   ANALYTICAL = panel opened. This preserves meaningful behavioral distinction without
+   requiring artificial time pressure that no longer exists in the game.
+
+7. OPEN (documentation only): CLAUDE.md cycle change values do not match ETF_DATA arrays
+   in SimulationManager.gd. Runtime pricing is correct (uses ETF_DATA). Only the
+   documentation table in CLAUDE.md is wrong. Correct values are in DEMO_PLAN.md.
+   Fix: Update cycle change table in CLAUDE.md to match ETF_DATA.cycle_changes arrays.
+
+8. OPEN: CrashCycle.etf_changes set in _build_cycles() does not match ETF_DATA.cycle_changes.
+   Location: SimulationManager._build_cycles()
+   Detail: The etf_changes dict on each CrashCycle object has different values than
+   ETF_DATA.cycle_changes. Pricing is unaffected because _snapshot_cycle_open_prices()
+   reads ETF_DATA directly, not CrashCycle.etf_changes.
+   Fix: Align CrashCycle.etf_changes with ETF_DATA values, or remove etf_changes from
+   _build_cycles() entirely if it serves no runtime purpose.
+
 ---
 
 ## SimulationScreen — Layout Reference (Current)
