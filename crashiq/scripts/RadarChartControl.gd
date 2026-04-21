@@ -83,7 +83,8 @@ func _draw() -> void:
 	var poly: PackedVector2Array = PackedVector2Array()
 	for i in n:
 		var a:   float = -PI * 0.5 + i * TAU / float(n)
-		var amp: float = clampf(_amplitudes.get(KEYS[i], 0.0), 0.0, 1.0)
+		var raw: float = _amplitudes.get(KEYS[i], 0.0)
+		var amp: float = clampf(raw if (_dominant.is_empty() or KEYS[i] == _dominant) else 0.0, 0.0, 1.0)
 		poly.append(Vector2(cx + cos(a) * r * amp, cy + sin(a) * r * amp))
 
 	draw_colored_polygon(poly, color_fill)

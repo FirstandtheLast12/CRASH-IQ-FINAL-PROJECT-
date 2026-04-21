@@ -249,10 +249,8 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var bought_during_crash: bool = action == "BUY" and is_crash_cycle
 
 	var expedient: float = 0.0
-	if time_to_decide < 5.0 and not info_opened:
+	if not info_opened:
 		expedient = 1.0
-	elif time_to_decide < 8.0 and not info_opened:
-		expedient = 0.5
 
 	var analytical: float = 0.0
 	if info_opened and time_to_decide > 10.0:
