@@ -527,180 +527,260 @@ Five for five. The behavioral signature never wavered."
 
 ---
 
+
 ## DEMO 4 — VALUE_DRIVEN PATHWAY (P → I → J → D)
 ## Difficulty: VETERAN — $100,000
 
 ### What This Demonstrates
-The full deliberator. Sees the headline, checks the data, applies judgment,
+The full deliberator with $100,000. Sees the headline, checks the data, applies judgment,
 then executes — every cycle, same sequence, same conclusion.
 P → I → J → D. The most complete throughput pathway.
-Consistent conviction is the output of consistent process.
+The Veteran builds a diversified crisis portfolio across three ETFs,
+but the PRIMARY trade each cycle is always CIQE — the same first action every time.
+That consistency is the VALUE_DRIVEN behavioral signature.
 
-### Why the Same ETF Every Cycle
-VALUE_DRIVEN scores in BehaviorTracker when the same ETF is traded as the previous cycle.
-Narratively: the Veteran's P→I→J→D loop always returns the same answer
-because their underlying value framework is stable.
-They are not ignoring data — they are checking it thoroughly and consistently
-arriving at the same thesis. That IS the value-driven behavioral signature.
+### Why CIQE Is Always the First Trade
+VALUE_DRIVEN scores in BehaviorTracker when the first confirmed trade each cycle
+uses the same ETF as the previous cycle's first confirmed trade.
+The Veteran's thesis: energy supply shock is the driving force of this entire crisis.
+Every headline confirms it. CIQE is traded first every cycle — BUY in C1-C3,
+SELL partial in C4 (rotate into CIQD surge), SELL all in C5.
+BUY and SELL both count — action != HOLD is the only requirement.
 
-### ETF: CIQD — CIQ Defense Fund
-Thesis: War escalation → defense contracts → CIQD rises.
-CIQD drops -8% in C2 (profit-taking). The Veteran adds to their position.
-"The thesis has not changed. The rule says: buy Defense in war. We buy."
+### Multi-ETF Strategy
+The Veteran does not put $100,000 into one ETF. They read the macro:
+- CIQE (Energy): Primary thesis. Oil disruption is the engine of this conflict.
+- CIQD (Defense): War escalation means defense contracts — secondary position.
+- CIQS (Safe Haven): Steady flight-to-safety gains in every crisis cycle.
+- Avoid CIQM (market panic) and CIQG (trade routes collapse).
+
+This is a $100,000 professional position — diversified, structured, fully deliberated.
 
 ### Behavioral Requirements Each Cycle
-- See the headline first (do NOT click chart as first action — keeps first_action = HEADLINE)
-  This distinguishes VALUE_DRIVEN (P first) from REVISIONIST (I first)
-- Then open the CIQD chart panel (I — information check)
-  Opening a panel sets info_panel_opened = true, which scores ANALYTICAL not EXPEDIENT.
-  VALUE_DRIVEN scores on top of that via the same-ETF rule — both can be non-zero.
-- Trade CIQD every cycle — BUY in C1 through C4, SELL in C5
-  Same ETF every cycle is what scores VALUE_DRIVEN
-- Open only 1 panel per cycle (avoids GLOBAL which needs 3+)
-- Works WITHOUT the info panel bug fix (VALUE_DRIVEN does not depend on info_panel tracking).
-
-### Why Timing Still Matters for Demo 4
-Opening the panel each cycle triggers ANALYTICAL scoring (info_opened = true).
-If the presenter takes > 10s before confirming, ANALYTICAL = 1.0 each cycle → avg 1.0.
-VALUE_DRIVEN averages 0.80 (4/5 cycles). ANALYTICAL would dominate.
-
-The ANALYTICAL time threshold was kept specifically to create a sweet spot for VALUE_DRIVEN:
-  Under 9s per cycle: ANALYTICAL = 0.5 (partial), VALUE_DRIVEN = 1.0 → VALUE_DRIVEN wins
-  Over 10s per cycle: ANALYTICAL = 1.0, VALUE_DRIVEN = 1.0 → tied or ANALYTICAL wins
-
-Demo 4 cheat: narrate your one-sentence thesis while clicking confirm — keep each cycle under 9s.
-"Headline → open CIQD panel → one sentence → confirm" is approximately 6-8 seconds naturally.
+- See the headline first (P — first_action = HEADLINE)
+- Open CIQE panel first (I — information check on primary thesis ETF)
+- CIQE is always the FIRST confirmed trade (sets VALUE_DRIVEN scoring)
+- Additional trades after CIQE are financially applied but not pathway-scored
+- Open only CIQE panel per cycle (avoids GLOBAL which requires 3+ panels)
 
 ---
 
 ### CYCLE 1 — Operation Epic Fury
-CIQD opens at $103.50 (up 15%). Crash cycle (CIQM -8%).
+CIQE opens at $89.60 (+12%). CIQD opens at $103.50 (+15%). CIQS opens at $74.20 (+6%).
+Crash cycle (CIQM -8%).
 
-PERCEPTION: War started. Military escalation.
-INFORMATION: Click CIQD chart. See +15%. Defense rising.
-JUDGMENT (under 9 seconds, narrate): "Defense always rises in the first wave of military
-escalation. This is the same pattern we have seen in every conflict.
-The thesis is confirmed."
-DECISION: BUY CIQD $30,000, Confirm. END CYCLE.
+PERCEPTION: US and Israel launch Operation Epic Fury. War starts.
+INFORMATION: Click CIQE tab. Energy up 12%. Oil supply under immediate threat.
+JUDGMENT: "Energy is the primary lever. Defense and Safe Haven follow the escalation.
+We build three positions — CIQE leads, CIQD and CIQS support.
+$100,000 deployed strategically across the crisis thesis."
+DECISION:
+  1. BUY CIQE $20,000. Confirm.  ← VALUE_DRIVEN scorer (sets prev = CIQE)
+  2. BUY CIQD $25,000. Confirm.
+  3. BUY CIQS $10,000. Confirm.
+  END CYCLE.
 
-Trade: BUY CIQD $30,000 → 289.86 shares at $103.50
-Cash: $70,000 | CIQD: 289.86 shares | Portfolio: $100,000
-Press END CYCLE.
+Trades:
+  BUY CIQE $20,000 → 223.21 shares at $89.60
+  BUY CIQD $25,000 → 241.55 shares at $103.50
+  BUY CIQS $10,000 → 134.77 shares at $74.20
+  Cash remaining: $45,000
 
-Say: "Headline in. Data checked. Judgment: thesis intact. Trade executed.
-P arrow I arrow J arrow D. Same sequence the Veteran uses every time."
+Portfolio after C1: $100,000
+(Positions bought at open price — gain shows next cycle)
 
-C1 score: VALUE_DRIVEN = 0 (no previous ETF to match), but sets _prev_etf_traded = "CIQD"
+Say: "Headline in. CIQE panel checked. Thesis confirmed: energy, defense, safe haven.
+Three positions. Same framework the Veteran applies every time.
+P arrow I arrow J arrow D."
+
+C1 score: VALUE_DRIVEN = 0 (no previous ETF to match), sets _prev_etf_traded = "CIQE"
 
 ---
 
 ### CYCLE 2 — Strait Closed
-CIQD opens at $95.22 — dropped -8%. Profit-taking after initial shock.
+CIQE opens at $120.96 (+35%). CIQD opens at $95.22 (-8%). CIQS opens at $83.10 (+12%).
+Not a crash cycle (CIQM +5% — dip buyers entered).
 
-PERCEPTION: Strait closes. Defense pulled back.
-INFORMATION: Click CIQD chart. See -8% dip.
-JUDGMENT (under 9 seconds): "Profit-taking, not a trend change.
-The war is escalating. Defense contracts are being written right now.
-The dip does not change the thesis. It is an entry point."
-DECISION: BUY CIQD $20,000, Confirm. END CYCLE.
+Portfolio at C2 open (before trades):
+  Cash: $45,000
+  CIQE: 223.21 × $120.96 = $27,001
+  CIQD: 241.55 × $95.22  = $22,999
+  CIQS: 134.77 × $83.10  = $11,199
+  Total: $106,199 (+$6,199 this cycle)
 
-Trade: BUY CIQD $20,000 → 210.07 shares at $95.22
-Cash: $50,000 | CIQD: 499.93 shares (289.86 + 210.07)
-CIQD value: 499.93 * $95.22 = $47,613
-Portfolio after C2: $50,000 + $47,613 = $97,613 (-$2,387 this cycle)
+PERCEPTION: Iran closes the Strait. CIQE surges 35%. CIQD dips on profit-taking.
+INFORMATION: Click CIQE tab. Up 35% — thesis accelerating.
+JUDGMENT: "Strait closure is maximum energy disruption. Add more CIQE.
+CIQD dipped — that is profit-taking, not thesis change. Add on the dip.
+Cash deployed: $25K to CIQE, $15K to CIQD."
+DECISION:
+  1. BUY CIQE $25,000. Confirm.  ← VALUE_DRIVEN scorer (CIQE = prev CIQE)
+  2. BUY CIQD $15,000. Confirm.
+  END CYCLE.
 
-Say: "Defense dipped. Others are selling. We are buying.
-The thesis has not changed. The rule says buy Defense in war.
-We buy the dip. P arrow I arrow J arrow D. Same sequence."
+Trades:
+  BUY CIQE $25,000 → 206.68 shares at $120.96
+  BUY CIQD $15,000 → 157.53 shares at $95.22
+  Cash remaining: $5,000
 
-Note: -$2,387 this cycle is a deliberate test of VALUE_DRIVEN conviction.
-The Veteran does not deviate. This contrast with Expedient is the teaching moment.
+Holdings after C2 trades:
+  CIQE: 429.89 shares | CIQD: 399.08 shares | CIQS: 134.77 shares
+  Cash: $5,000
 
-C2 score: VALUE_DRIVEN = 1.0 (CIQD = _prev_etf_traded CIQD) — DOMINANT starts here
+Say: "CIQE up 35%. Thesis confirmed. CIQD dipped — we buy the dip.
+Same process. Same conclusion. P arrow I arrow J arrow D."
+
+C2 score: VALUE_DRIVEN = 1.0 (BUY CIQE = prev CIQE) — DOMINANT starts here
 
 ---
 
 ### CYCLE 3 — China Warns
-CIQD opens at $119.03 (+25%). Thesis accelerating.
+CIQE opens at $145.15 (+20%). CIQD opens at $119.03 (+25%). CIQS opens at $91.41 (+10%).
+Crash cycle (CIQM -18%).
 
-PERCEPTION: China enters. Escalation deepens.
-INFORMATION: Click CIQD chart. See +25%. Defense rising strongly.
-JUDGMENT (under 9 seconds): "China entering means this conflict is multi-front.
-Defense spending across multiple nations accelerates. Thesis strengthens."
-DECISION: BUY CIQD $15,000, Confirm. END CYCLE.
+Portfolio at C3 open (before trades):
+  Cash: $5,000
+  CIQE: 429.89 × $145.15 = $62,399
+  CIQD: 399.08 × $119.03 = $47,500
+  CIQS: 134.77 × $91.41  = $12,319
+  Total: $127,218 (+$21,019 this cycle)
 
-Trade: BUY CIQD $15,000 → 126.02 shares at $119.03
-Cash: $35,000 | CIQD: 625.95 shares
-CIQD value: 625.95 * $119.03 = $74,506
-Portfolio after C3: $35,000 + $74,506 = $109,506 (+$11,893 this cycle)
-Press END CYCLE.
+PERCEPTION: China enters. Multi-front conflict confirmed.
+INFORMATION: Click CIQE tab. Up 20% — energy thesis holding under maximum escalation.
+JUDGMENT: "China entering means this is no longer a regional conflict.
+Energy demand destruction accelerates. CIQE and CIQD both rising.
+Deploy remaining $5,000 cash into CIQE."
+DECISION:
+  1. BUY CIQE $5,000. Confirm.  ← VALUE_DRIVEN scorer (CIQE = prev CIQE)
+  END CYCLE.
 
-C3 score: VALUE_DRIVEN = 1.0 (CIQD = prev CIQD)
+Trades:
+  BUY CIQE $5,000 → 34.45 shares at $145.15
+  Cash remaining: $0
+
+Holdings after C3 trades:
+  CIQE: 464.34 shares | CIQD: 399.08 shares | CIQS: 134.77 shares
+  Cash: $0
+
+Say: "China in. Three ETFs all rising. Portfolio up over $27,000 in two cycles.
+Same sequence every cycle. Thesis is not noise — it is signal."
+
+C3 score: VALUE_DRIVEN = 1.0 (BUY CIQE = prev CIQE)
 
 ---
 
 ### CYCLE 4 — Ground Invasion
-CIQD opens at $154.74 (+30%). Boots on ground.
+CIQE opens at $133.54 (-8%). CIQD opens at $154.74 (+30%). CIQS opens at $98.72 (+8%).
+Crash cycle (CIQM -12%).
 
-PERCEPTION: Ground invasion confirmed.
-INFORMATION: Click CIQD chart. See +30%. Thesis at peak performance.
-JUDGMENT (under 9 seconds): "Ground forces in the field. Massive logistics and
-equipment demand. Defense is in full contract mode. One more add."
-DECISION: BUY CIQD $10,000, Confirm. END CYCLE.
+Portfolio at C4 open (before trades):
+  Cash: $0
+  CIQE: 464.34 × $133.54 = $62,017
+  CIQD: 399.08 × $154.74 = $61,739
+  CIQS: 134.77 × $98.72  = $13,305
+  Total: $137,061 (+$9,843 this cycle)
 
-Trade: BUY CIQD $10,000 → 64.62 shares at $154.74
-Cash: $25,000 | CIQD: 690.57 shares
-CIQD value: 690.57 * $154.74 = $106,840
-Portfolio after C4: $25,000 + $106,840 = $131,840 (+$22,334 this cycle)
-Press END CYCLE.
+PERCEPTION: 82nd Airborne deployed. Ground invasion begins.
+INFORMATION: Click CIQE tab. Down 8% — temporary. CIQD surging 30% on ground war demand.
+JUDGMENT: "CIQE dipped on demand uncertainty — the market fears a ceasefire.
+CIQD is surging on ground invasion logistics and contracts.
+Tactical rotation: trim 100 CIQE shares, rotate proceeds into CIQD.
+First trade stays CIQE — framework intact."
+DECISION:
+  1. SELL 100 Shares CIQE. Confirm.     ← VALUE_DRIVEN scorer (SELL CIQE = prev CIQE, action != HOLD)
+  2. BUY CIQD $13,000. Confirm.
+  END CYCLE.
 
-C4 score: VALUE_DRIVEN = 1.0 (CIQD = prev CIQD)
+Trades:
+  SELL 100 CIQE @ $133.54 → $13,354 cash
+  BUY CIQD $13,000 → 84.01 shares at $154.74
+  Cash remaining: $354
+
+Holdings after C4 trades:
+  CIQE: 364.34 shares | CIQD: 483.09 shares | CIQS: 134.77 shares
+  Cash: $354
+
+Say: "CIQE pulled back. CIQD is surging on the ground invasion.
+We trim CIQE, rotate into CIQD — but CIQE is still the first trade.
+The framework does not break. P arrow I arrow J arrow D."
+
+C4 score: VALUE_DRIVEN = 1.0 (SELL CIQE = prev CIQE — BUY and SELL both score)
 
 ---
 
 ### CYCLE 5 — Gulf Mined
-CIQD opens at $177.95 (+15%). Gulf mined. Recession.
+CIQE opens at $186.96 (+40%). CIQD opens at $177.95 (+15%). CIQS opens at $118.46 (+20%).
+Crash cycle (CIQM -25%).
 
-PERCEPTION: Gulf mined. Maximum escalation. Thesis complete.
-INFORMATION: Click CIQD chart. See +15%. Defense still rising.
-JUDGMENT (under 9 seconds): "We have ridden this thesis from $103 to $177.
-Recession is declared. The escalation arc has reached its terminal point.
-Time to take profits. Rule says: execute the exit."
-DECISION: SELL all CIQD, Confirm. END CYCLE.
+Portfolio at C5 open (before trades):
+  Cash: $354
+  CIQE: 364.34 × $186.96 = $68,117
+  CIQD: 483.09 × $177.95 = $85,964
+  CIQS: 134.77 × $118.46 = $15,969
+  Total: $170,404 (+$33,343 this cycle)
 
-Trade: SELL all CIQD → 690.57 shares at $177.95 = $122,867.41
-Cash: $25,000 + $122,867.41 = $147,867.41
-Press END CYCLE.
+PERCEPTION: Gulf mined. Global recession declared.
+INFORMATION: Click CIQE tab. Up 40% — the crisis arc has reached its terminal escalation.
+JUDGMENT: "CIQE ran from $89 to $186. CIQD from $95 to $177. CIQS from $74 to $118.
+The thesis is fully realized. Recession is declared — sell everything.
+Rule says: execute the exit."
+DECISION:
+  1. SELL all CIQE (364.34 shares). Confirm.  ← VALUE_DRIVEN scorer (CIQE = prev CIQE)
+  2. SELL all CIQD (483.09 shares). Confirm.
+  3. SELL all CIQS (134.77 shares). Confirm.
+  END CYCLE.
 
-Say: "Thesis complete. Five cycles. Same ETF. Same process.
+Trades:
+  SELL 364.34 CIQE @ $186.96 = $68,117
+  SELL 483.09 CIQD @ $177.95 = $85,964
+  SELL 134.77 CIQS @ $118.46 = $15,969
+  Cash: $354 + $68,117 + $85,964 + $15,969 = $170,404
+
+Say: "Thesis complete. Three ETFs. Five cycles. Same first trade every time.
+CIQE opened every cycle — checked the data, confirmed the thesis, executed.
 P arrow I arrow J arrow D — start to finish.
 The value-driven investor does not panic out and does not chase noise.
-They execute their framework and let the thesis run."
+They build the thesis, hold the framework, and let conviction compound."
 
-C5 score: VALUE_DRIVEN = 1.0 (SELL CIQD = prev CIQD — BUY and SELL both count)
+C5 score: VALUE_DRIVEN = 1.0 (SELL CIQE = prev CIQE)
 
 ---
 
 ### DEMO 4 RESULT
-Starting cash:   $100,000.00
-Final portfolio: $147,867.41
-Gain:            +$47,867.41 (+47.9%)
-TPM Profile:     VALUE_DRIVEN — Systematic
-Classification:  "You returned to the same ETF cycle after cycle. Consistency
-                  under pressure is a signal of rule-based conviction rather
-                  than emotional reaction."
+Starting cash:    $100,000.00
+Final portfolio:  $170,404.00
+Gain:             +$70,404 (+70.4%)
+TPM Profile:      VALUE_DRIVEN — Systematic
+Classification:   "You returned to the same ETF cycle after cycle. Consistency
+                   under pressure is a signal of rule-based conviction rather
+                   than emotional reaction."
 
 VALUE_DRIVEN scoring:
 C1: 0.0 (no prev) | C2: 1.0 | C3: 1.0 | C4: 1.0 | C5: 1.0
 Average VALUE_DRIVEN: 0.80 — dominant pathway
 
+ETF performance across 5 cycles:
+  CIQE: $89.60 → $186.96 (+108.7%) — primary thesis ETF
+  CIQD: $103.50 → $177.95 (+71.9%) — secondary position, added on C2 dip
+  CIQS: $74.20 → $118.46 (+59.6%) — steady safe haven throughout
+
+Portfolio cycle-by-cycle:
+  After C1: $100,000 (positions opened at cycle 1 prices)
+  After C2: $106,199 (+$6,199)
+  After C3: $127,218 (+$21,019)
+  After C4: $137,061 (+$9,843)
+  After C5: $170,404 (+$33,343)
+
 Closing statement for Demo 4:
 "The Value-Driven pathway. P arrow I arrow J arrow D. All four stages, every cycle.
-The Veteran saw the headline, checked the data, applied judgment, and executed.
-Same conclusion every time — not because they ignored new information,
-but because new information kept confirming the same thesis.
-That is what value-driven conviction looks like under pressure."
+The Veteran saw the headline, checked the energy data, applied their framework,
+and executed — same first trade every time.
+Not because they ignored new data, but because every new data point
+kept confirming the same thesis across three ETFs.
+One hundred thousand dollars. Three positions. Seventy percent return.
+That is what value-driven conviction looks like under maximum pressure."
 
+---
 ---
 
 ## CLOSING THE DEMO — Connecting to Professor Rodgers' Model
