@@ -685,7 +685,7 @@ func _show_cycle_result(cycle_num: int, _trade_data: Dictionary) -> void:
 	style.border_width_top = 3
 	style.border_width_right = 3
 	style.border_width_bottom = 3
-	style.border_color = Color("ffd700")
+	style.border_color = Color("ff4444")
 	style.corner_radius_top_left = 10
 	style.corner_radius_top_right = 10
 	style.corner_radius_bottom_left = 10
@@ -704,18 +704,21 @@ func _show_cycle_result(cycle_num: int, _trade_data: Dictionary) -> void:
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	var cycle_lbl: Label = Label.new()
-	cycle_lbl.text = "CYCLE %d / %d" % [cycle_num, SimulationManager.get_cycle_count()]
-	cycle_lbl.add_theme_font_size_override("font_size", 15)
-	cycle_lbl.add_theme_color_override("font_color", Color(0.0, 0.0, 0.0, 0.55))
-	cycle_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var cycle_lbl: RichTextLabel = RichTextLabel.new()
+	cycle_lbl.bbcode_enabled = true
+	cycle_lbl.text = "[center][color=#00ff41][b]CYCLE %d / %d[/b][/color][/center]" % [cycle_num, SimulationManager.get_cycle_count()]
+	cycle_lbl.add_theme_font_size_override("normal_font_size", 15)
+	cycle_lbl.fit_content = true
+	cycle_lbl.scroll_active = false
 	cycle_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	var narrative_lbl: Label = Label.new()
+	var narrative_lbl: RichTextLabel = RichTextLabel.new()
+	narrative_lbl.bbcode_enabled = true
 	narrative_lbl.text = narrative
-	narrative_lbl.add_theme_font_size_override("font_size", 24)
-	narrative_lbl.add_theme_color_override("font_color", Color("ff4444"))
-	narrative_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	narrative_lbl.add_theme_font_size_override("normal_font_size", 24)
+	narrative_lbl.add_theme_color_override("default_color", Color("ffffff"))
+	narrative_lbl.fit_content = true
+	narrative_lbl.scroll_active = false
 	narrative_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	narrative_lbl.custom_minimum_size = Vector2(banner_w - 96.0, 0.0)
 	narrative_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
