@@ -1,6 +1,3 @@
-res://scripts/MotivationCutscene.gd
+res://autoloads/BehaviorTracker.gd
 res://scripts/ProfileScreen.gd
 res://scripts/RadarChartControl.gd
-res://autoloads/BehaviorTracker.gd
-res://scripts/SimulationScreen.gd
-res://scripts/TradePanel.gd

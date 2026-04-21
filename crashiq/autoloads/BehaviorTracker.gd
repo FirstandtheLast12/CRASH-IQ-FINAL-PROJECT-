@@ -10,9 +10,7 @@ var _amplitude_sums: Dictionary = {
 	"EXPEDIENT": 0.0,
 	"ANALYTICAL": 0.0,
 	"VALUE_DRIVEN": 0.0,
-	"RULING_GUIDE": 0.0,
 	"REVISIONIST": 0.0,
-	"GLOBAL": 0.0
 }
 
 var _current: Dictionary = {}
@@ -65,7 +63,7 @@ func get_learning_delta() -> float:
 
 	var first: Dictionary = _cycle_amplitudes[0]
 	var last: Dictionary = _cycle_amplitudes[_cycle_amplitudes.size() - 1]
-	var keys: Array = ["ANALYTICAL", "VALUE_DRIVEN", "RULING_GUIDE", "REVISIONIST", "GLOBAL"]
+	var keys: Array = ["ANALYTICAL", "VALUE_DRIVEN", "REVISIONIST"]
 	var first_sum: float = 0.0
 	var last_sum: float = 0.0
 	for key in keys:
@@ -100,32 +98,24 @@ func get_tpm_classification() -> String:
 			return "Strategic"
 		"VALUE_DRIVEN":
 			return "Systematic"
-		"RULING_GUIDE":
-			return "Methodical"
 		"REVISIONIST":
-			return "Contrarian"
-		"GLOBAL":
-			return "Adaptive"
+			return "Methodical"
 		_:
-			return "Adaptive"
+			return "Impulse Trader"
 
 func get_tpm_explanation() -> String:
-	var classification: String = get_tpm_classification()
-	match classification:
-		"Impulse Trader":
+	var dominant: String = get_dominant_pathway()
+	match dominant:
+		"EXPEDIENT":
 			return "You moved fast and skipped analysis. Decisions fired before the full picture settled — speed dominated over deliberation under pressure."
-		"Strategic":
-			return "You checked the data before acting and took your time. Your pattern points to calculated positioning driven by information rather than panic."
-		"Systematic":
+		"ANALYTICAL":
+			return "You checked the data before acting. Your pattern points to calculated positioning driven by information rather than panic."
+		"VALUE_DRIVEN":
 			return "You returned to the same ETF cycle after cycle. Consistency under pressure is a signal of rule-based conviction rather than emotional reaction."
-		"Methodical":
-			return "You reviewed multiple ETFs and cross-checked information before every decision. Full deliberation under crisis pressure defines your throughput pathway."
-		"Contrarian":
-			return "You bought into the crash. Reading against the crowd and acting on macro context under maximum stress is a rare and high-conviction behavioral signal."
-		"Adaptive":
-			return "Your behavior shifted across cycles, mixing macro-awareness, timing, and directional positioning as the crisis escalated. No single pathway dominated."
+		"REVISIONIST":
+			return "You checked the data before the headline settled. Information came first and reframed every headline as signal. That is the Revisionist pathway — I arrow P arrow D."
 		_:
-			return "Your behavior adapted across the crisis. You mixed defense, patience, and directional conviction as market conditions escalated."
+			return "You moved fast and skipped analysis. Decisions fired before the full picture settled — speed dominated over deliberation under pressure."
 
 func get_tpm_metrics() -> Dictionary:
 	var buy_count: int = 0
@@ -247,17 +237,10 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var checked_etfs: Array = cycle_data.get("etfs_checked", [])
 	var action: String = cycle_data.get("trade_action", "HOLD")
 	var ticker: String = cycle_data.get("etf_traded", "")
-<<<<<<< HEAD
-	print("[BT] SCORE_INPUT C%d — info_opened=%s info_switches=%d etfs_checked=%s action=%s ticker=%s prev=%s" % [
-		SimulationManager.current_cycle, info_opened, info_switches,
-		str(checked_etfs), action, ticker, _prev_etf_traded
-	])
-=======
-	print("[BT] Cycle %d | info_opened=%s | time=%.2fs | action=%s | ticker=%s" % [
-		cycle_data.get("cycle", 0), str(info_opened), time_to_decide, action, ticker
-	])
 	var reread_headline: bool = cycle_data.get("headline_reread", false)
->>>>>>> 0f05d15beff61510ac9312cdec37e3f41d684596
+	print("[BT] SCORE C%d — info=%s action=%s ticker=%s prev=%s reread=%s" % [
+		SimulationManager.current_cycle, str(info_opened), action, ticker, _prev_etf_traded, str(reread_headline)
+	])
 
 	var broad_market_change: float = SimulationManager.ETF_CYCLE_CHANGES["CIQM"][
 		SimulationManager.current_cycle - 1
@@ -265,58 +248,36 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var is_crash_cycle: bool = broad_market_change < 0.0
 	var bought_during_crash: bool = action == "BUY" and is_crash_cycle
 
-	# EXPEDIENT: no research at all — reacted to headline blind
+	# EXPEDIENT (P→D): no info panel opened — reacted to headline blind
 	var expedient: float = 1.0 if not info_opened else 0.0
 
-<<<<<<< HEAD
-	# REVISIONIST: opened panel AND bought into the crash (contrarian)
-	var revisionist: float = 1.0 if (info_opened and bought_during_crash) else 0.0
-
-	# ANALYTICAL: opened panel but did NOT buy into a crash (data-driven, non-contrarian)
-	# Blocked in the same cycle REVISIONIST fires — they are mutually exclusive
-	var analytical: float = 1.0 if (revisionist == 0.0 and info_opened) else 0.0
-
-	# VALUE_DRIVEN: same ETF traded as previous cycle — consistent thesis
-=======
->>>>>>> 0f05d15beff61510ac9312cdec37e3f41d684596
+	# VALUE_DRIVEN (P→I→J→D): same ETF traded as previous cycle — consistent thesis
 	var value_driven: float = 0.0
 	if not ticker.is_empty() and action != "HOLD" and ticker == _prev_etf_traded:
 		value_driven = 1.0
 
-	# RULING_GUIDE: opened all 5 ETF panels, most thorough review
-	var ruling_guide: float = 1.0 if (
-		info_switches >= 2 and checked_etfs.size() == SimulationManager.get_etf_order().size()
-	) else 0.0
+	# REVISIONIST (I→P→D): info panel opened as FIRST action, then BUY.
+	# Requires first_action=="INFO" (chart clicked before anything else in trading phase).
+	# ANALYTICAL wins Demo 2 because C3/C4/C5 are SELL/HOLD — REVISIONIST needs BUY.
+	var revisionist: float = 0.0
+	if info_opened and action == "BUY" and cycle_data.get("first_action", "") == "INFO":
+		revisionist = 1.0
 
-	# GLOBAL: macro-aware — traded rising macro ETF after checking 3+ panels
-	var macro_trade: bool = false
-	if ticker in ["CIQE", "CIQD", "CIQS"]:
-		macro_trade = SimulationManager.ETF_CYCLE_CHANGES[ticker][
-			SimulationManager.current_cycle - 1
-		] > 0.0
-	var global_amplitude: float = 1.0 if (info_switches >= 3 and macro_trade) else 0.0
-
-<<<<<<< HEAD
-	print("[BT] SCORE_RESULT C%d — EXP=%.1f ANA=%.1f VAL=%.1f RUL=%.1f REV=%.1f GLO=%.1f" % [
-		SimulationManager.current_cycle,
-		expedient, analytical, value_driven, ruling_guide, revisionist, global_amplitude
-	])
-=======
-	# ANALYTICAL scores only when info was opened but no more-specific info-based
-	# pathway also fired that cycle. VALUE_DRIVEN (same ETF), REVISIONIST, RULING_GUIDE,
-	# and GLOBAL all carry their own information-stage signals that take precedence.
+	# ANALYTICAL (I→J→D): info panel opened and not a same-ETF conviction streak.
+	# Fires alongside REVISIONIST — Demo 2 wins ANALYTICAL because C3/C4/C5 are SELL/HOLD
+	# where REVISIONIST can't fire, giving ANALYTICAL a higher average than REVISIONIST.
 	var analytical: float = 0.0
-	if info_opened and value_driven == 0.0 and revisionist == 0.0 and ruling_guide == 0.0 and global_amplitude == 0.0:
+	if info_opened and value_driven == 0.0:
 		analytical = 1.0
 
->>>>>>> 0f05d15beff61510ac9312cdec37e3f41d684596
+	print("[BT] SCORE C%d — EXP=%.1f ANA=%.1f VAL=%.1f REV=%.1f" % [
+		SimulationManager.current_cycle, expedient, analytical, value_driven, revisionist
+	])
 	return {
 		"EXPEDIENT": expedient,
 		"ANALYTICAL": analytical,
 		"VALUE_DRIVEN": value_driven,
-		"RULING_GUIDE": ruling_guide,
 		"REVISIONIST": revisionist,
-		"GLOBAL": global_amplitude
 	}
 
 func _get_risk_tolerance_label(buy_count: int, sell_count: int, hold_count: int) -> String:

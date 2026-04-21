@@ -3,12 +3,10 @@ extends Control
 
 # ─── Pathway order (clockwise from top) ─────────────────────────────────────
 var KEYS: Array[String] = [
-	"EXPEDIENT", "ANALYTICAL", "VALUE_DRIVEN",
-	"RULING_GUIDE", "REVISIONIST", "GLOBAL",
+	"EXPEDIENT", "ANALYTICAL", "VALUE_DRIVEN", "REVISIONIST",
 ]
 var LABELS: Array[String] = [
-	"EXPEDIENT", "ANALYTICAL", "VALUE\nDRIVEN",
-	"RULING\nGUIDE", "REVISIONIST", "GLOBAL",
+	"EXPEDIENT", "ANALYTICAL", "VALUE\nDRIVEN", "REVISIONIST",
 ]
 
 @export var color_web:     Color = Color(1, 1, 1, 0.10)
@@ -32,8 +30,7 @@ var PATHWAY_COLORS: Dictionary = {
 }
 
 var _amplitudes: Dictionary = {
-	"EXPEDIENT": 0.0, "ANALYTICAL": 0.0, "VALUE_DRIVEN": 0.0,
-	"RULING_GUIDE": 0.0, "REVISIONIST": 0.0, "GLOBAL": 0.0,
+	"EXPEDIENT": 0.0, "ANALYTICAL": 0.0, "VALUE_DRIVEN": 0.0, "REVISIONIST": 0.0,
 }
 
 var _dominant: String = ""

@@ -394,37 +394,32 @@ Where others see disaster, the Revisionist sees signal.
 I → P → D. Information reframes perception. Then the decision follows.
 
 ### Behavioral Requirements Each Cycle
-- REVISIONIST requires ALL of these simultaneously (crash cycles only):
+- REVISIONIST requires ALL of these simultaneously:
   1. Click a chart as your ABSOLUTE FIRST ACTION when trading opens
      (before clicking anything else — this sets first_action = INFO)
-  2. Click the DARK BACKGROUND to close the panel
-     (this registers headline_reread = true)
-  3. Action must be BUY (not SELL or HOLD)
-  4. CIQM must be falling this cycle (C1, C3, C4, C5 — not C2)
-- For C2 (CIQM bounces — not a crash cycle): open panel, wait 10+ seconds, then BUY
-  (this scores ANALYTICAL for C2, which is fine — VALUE doesn't depend on every cycle)
-- For C3 (SELL action): REVISIONIST won't score — this is expected
-- REQUIRES the info panel bug fix to classify correctly.
+  2. Action must be BUY (not SELL or HOLD)
+- All 5 cycles are BUY + info-first → REVISIONIST scores 5/5 = 1.0
+- ANALYTICAL also fires each cycle (info panel opened) but only averages 1.0 too — REVISIONIST
+  wins the tie because it is the last key in the amplitude dictionary.
 
 ---
 
 ### CYCLE 1 — Operation Epic Fury
-CIQE opens at $89.60. CIQS opens at $74.20. Crash cycle (CIQM -8%).
+CIQM opens at $92.00 (-8%). CIQE opens at $89.60. CIQS opens at $74.20. Crash cycle.
 
-INFORMATION FIRST: Immediately click the CIQE chart when trading opens — before anything else.
+INFORMATION FIRST: Immediately click the CIQM chart when trading opens — before anything else.
 Say while looking at panel: "Before reading the headline — we check the data.
-Energy supply shock from a Middle East conflict. CIQE benefits.
-Safe Haven rises in fear environments. CIQS benefits."
-Click dark BACKGROUND to close panel (registers headline reread).
+Broad market is already down. Let us read the signal before the crowd interprets the headline."
 PERCEPTION REFRAMED: "The headline confirms what the data already told us."
-DECISION: BUY CIQE $8,000, Confirm. Then BUY CIQS $4,000, Confirm. END CYCLE.
+DECISION: BUY CIQM $3,000, Confirm. Then BUY CIQE $8,000, Confirm. Then BUY CIQS $4,000, Confirm. END CYCLE.
 
-Trade 1 (scored): BUY CIQE $8,000 → 89.29 shares at $89.60
-Trade 2 (not scored): BUY CIQS $4,000 → 53.91 shares at $74.20
-Cash: $13,000 | CIQE: 89.29 | CIQS: 53.91 | Portfolio: $25,000
+Trade 1 (scored): BUY CIQM $3,000 → 32.61 shares at $92.00
+Trade 2 (not scored): BUY CIQE $8,000 → 89.29 shares at $89.60
+Trade 3 (not scored): BUY CIQS $4,000 → 53.91 shares at $74.20
+Cash: $10,000 | CIQM: 32.61 | CIQE: 89.29 | CIQS: 53.91 | Portfolio: $25,000
 Press END CYCLE.
 
-C1 score: REVISIONIST (info first, backdrop closed, BUY during crash cycle)
+C1 score: REVISIONIST (info first — CIQM chart, BUY CIQM during crash cycle) = 1.0
 
 ---
 
@@ -432,108 +427,103 @@ C1 score: REVISIONIST (info first, backdrop closed, BUY during crash cycle)
 CIQM opens at $96.60 — it BOUNCED (+5%). NOT a crash cycle.
 CIQE at $120.96 (+35%). CIQS at $83.10 (+12%).
 
-INFORMATION: Click CIQM chart — panel opens.
-Say while waiting 10+ seconds: "Strait closes. Everyone is selling CIQM.
-But the data shows dip buyers entering. CIQM bounced this cycle.
-The crowd is fleeing. The data says someone is buying the dip."
-PERCEPTION REFRAMED: Others see disaster. Revisionist sees contrarian opportunity.
-DECISION: BUY CIQM $5,000, Confirm. END CYCLE.
-(Not a crash cycle — REVISIONIST won't score. This scores neutral or partial ANALYTICAL.)
+INFORMATION FIRST: Immediately click the CIQD chart when trading opens — before anything else.
+Say while looking: "Strait closes. Naval conflict accelerates defense contracts. Before reading
+the headline — we check CIQD. The data confirms the thesis."
+PERCEPTION REFRAMED: "We read the defense signal before the headline told us to."
+DECISION: BUY CIQD $2,000, Confirm. Then SELL all CIQM, Confirm. END CYCLE.
+(BUY CIQD is scored. SELL CIQM is unscored — clears the position after the first trade registers.)
 
-Trade: BUY CIQM $5,000 → 51.76 shares at $96.60
-Cash: $8,000 | CIQM: 51.76 | CIQE: 89.29 | CIQS: 53.91
-CIQE value: $10,800 | CIQS value: $4,480
-Portfolio after C2: $28,280 (+$3,280 this cycle)
+Trade 1 (scored): BUY CIQD $2,000 → 21.00 shares at $95.22
+Trade 2 (unscored): SELL all CIQM → 32.61 shares at $96.60 = $3,150
+Cash: $11,150 | CIQD: 21.00 | CIQE: 89.29 | CIQS: 53.91
+CIQE value: $10,800 | CIQS value: $4,480 | CIQD value: $2,000
+Portfolio after C2: $28,430 (+$3,430 this cycle)
 Press END CYCLE.
 
-C2 score: Not REVISIONIST (C2 is not crash cycle). Neutral or partial ANALYTICAL.
+C2 score: REVISIONIST (info first — CIQD chart, BUY CIQD, first_action = INFO) = 1.0
 
 ---
 
 ### CYCLE 3 — China Warns
-CIQM opens at $79.21 — below our $96.60 buy price. Crash cycle (CIQM -18%).
+CIQD opens at $119.03 (+25%). CIQM at $79.21. Crash cycle (CIQM -18%).
 
-INFORMATION: Click CIQM chart.
-Say: "China enters. The bounce thesis is over. We captured what we could.
-The data says exit CIQM now before further downside."
-DECISION: SELL all CIQM, Confirm. END CYCLE.
-(SELL action — REVISIONIST requires BUY. This cycle does not score REVISIONIST.)
+INFORMATION FIRST: Immediately click the CIQD chart when trading opens — before anything else.
+Say while looking: "China enters. Saudi oil facilities hit. Defense contracts accelerate.
+CIQD is up 25 percent this cycle — the data shows the thesis before the headline confirms it."
+PERCEPTION REFRAMED: "We read the signal before reading the headline. Data first."
+DECISION: BUY CIQD $5,000, Confirm. END CYCLE.
 
-Trade: SELL all CIQM → 51.76 shares at $79.21 = $4,100.00
-Cash: $12,100 | CIQE: 89.29 | CIQS: 53.91
-CIQE: 89.29 * $145.15 = $12,960 | CIQS: 53.91 * $91.41 = $4,928
-Portfolio after C3: $29,988 (+$1,708 this cycle)
+Trade (scored): BUY CIQD $5,000 → 42.01 shares at $119.03
+Cash: $6,150 | CIQD: 63.01 (21.00 + 42.01) | CIQE: 89.29 | CIQS: 53.91
+CIQE: 89.29 * $145.15 = $12,960 | CIQS: 53.91 * $91.41 = $4,928 | CIQD: 63.01 * $119.03 = $7,501
+Portfolio after C3: $31,539 (+$3,109 this cycle)
 Press END CYCLE.
 
-Note to class: "We bought CIQM at $96.60, sold at $79.21. That is a loss.
-The contrarian call in C2 was wrong on CIQM. The data told us to exit.
-Our CIQE and CIQS positions are carrying the portfolio — up from $25K to $30K."
-
-C3 score: Not REVISIONIST (SELL action, not BUY).
+C3 score: REVISIONIST (info first — CIQD chart, BUY CIQD during crash cycle) = 1.0
 
 ---
 
 ### CYCLE 4 — Ground Invasion
 CIQG opens at $43.46 — surprise +15% spike. Crash cycle (CIQM -12%).
-Note: CIQE dropped -8% to $133.54 this cycle.
+Note: CIQE dropped -8% to $133.54. CIQD now at $154.74 (+30%).
 
-INFORMATION FIRST: Immediately click the CIQG chart when trading opens.
+INFORMATION FIRST: Immediately click the CIQG chart when trading opens — before anything else.
 Say while looking: "Shipping has been falling all war. But look — up 15 percent.
 Ground invasion signals Hormuz may reopen. Shipping rerouting creates demand.
 The data shows a counterintuitive signal the crowd is not positioned for."
-Click dark BACKGROUND to close panel (registers headline reread).
 PERCEPTION REFRAMED: Others see a collapsing sector. Revisionist sees reopening thesis.
-DECISION: BUY CIQG $6,000, Confirm. END CYCLE.
+DECISION: BUY CIQG $5,000, Confirm. END CYCLE.
 
-Trade: BUY CIQG $6,000 → 138.06 shares at $43.46
-Cash: $6,100 | CIQE: 89.29 | CIQS: 53.91 | CIQG: 138.06
-CIQE: 89.29 * $133.54 = $11,924 | CIQS: 53.91 * $98.72 = $5,323
-Portfolio after C4: $29,347 (-$641 this cycle — CIQE dropped)
+Trade (scored): BUY CIQG $5,000 → 115.05 shares at $43.46
+Cash: $1,150 | CIQG: 115.05 | CIQD: 63.01 | CIQE: 89.29 | CIQS: 53.91
+CIQE: 89.29 * $133.54 = $11,924 | CIQS: 53.91 * $98.72 = $5,323 | CIQD: 63.01 * $154.74 = $9,751
+Portfolio after C4: $33,148 (+$1,609 this cycle)
 Press END CYCLE.
 
-C4 score: REVISIONIST (info first, backdrop closed, BUY during crash cycle)
+C4 score: REVISIONIST (info first — CIQG chart, BUY CIQG during crash cycle) = 1.0
 
 ---
 
 ### CYCLE 5 — Gulf Mined
-CIQG opens at $30.42 — down -30%. CIQE at $186.96 (+40%). CIQS at $118.46 (+20%).
+CIQG opens at $30.42 — down -30%. CIQE at $186.96 (+40%). CIQS at $118.46 (+20%). CIQD at $177.95 (+15%).
 
-DECISION: HOLD — press END CYCLE. Watch CIQG collapse.
+INFORMATION FIRST: Immediately click the CIQE chart when trading opens — before anything else.
+Say while looking: "Gulf mined. Everything halted. But energy spikes under supply shock.
+CIQE is up 40 percent this cycle — the data shows the move before the crowd reacts."
+PERCEPTION REFRAMED: "Others see collapse. We read energy supply disruption — same thesis, new data."
+DECISION: BUY CIQE $1,000, Confirm. END CYCLE.
 
-Say: "Gulf mined. All shipping halted. CIQG collapses 30 percent.
-We bought shipping at $43. It is at $30. The contrarian call was WRONG on cycle 5.
-We bought the Hormuz reopening thesis. The Gulf got mined instead.
-That is the Revisionist pathway — the data reshapes perception.
-Sometimes the reframe is correct. Sometimes it is not."
-
-CIQE: 89.29 * $186.96 = $16,693 | CIQS: 53.91 * $118.46 = $6,388
-CIQG: 138.06 * $30.42 = $4,200 (bought for $6,000 — lost $1,800)
-Portfolio after C5: $6,100 + $16,693 + $6,388 + $4,200 = $33,381
+Trade (scored): BUY CIQE $1,000 → 5.35 shares at $186.96
+Cash: $150 | CIQE: 94.64 | CIQD: 63.01 | CIQS: 53.91 | CIQG: 115.05
+CIQE: 94.64 * $186.96 = $17,700 | CIQS: 53.91 * $118.46 = $6,388
+CIQD: 63.01 * $177.95 = $11,213 | CIQG: 115.05 * $30.42 = $3,499
+Portfolio after C5: $150 + $17,700 + $6,388 + $11,213 + $3,499 = $38,950
 Press END CYCLE.
 
-C5 score: Not REVISIONIST (HOLD — no BUY action).
+C5 score: REVISIONIST (info first — CIQE chart, BUY CIQE during crash cycle) = 1.0
 
 ---
 
 ### DEMO 3 RESULT
 Starting cash:   $25,000.00
-Final portfolio: $33,381.00
-Gain:            +$8,381.00 (+33.5%)
-TPM Profile:     REVISIONIST — Contrarian
-Classification:  "You bought into the crash. Reading against the crowd and acting
-                  on macro context under maximum stress is a rare and
-                  high-conviction behavioral signal."
+Final portfolio: $38,950.00
+Gain:            +$13,950.00 (+55.8%)
+TPM Profile:     REVISIONIST — Methodical
+Classification:  "You checked the data before the headline settled. Where others read
+                  crisis, you read signal — then let the data reshape what the headline
+                  meant. Information reframes perception before every decision.
+                  That is the Methodical — Revisionist pathway."
 
 REVISIONIST scoring breakdown:
-C1: 1.0 (info first, backdrop, BUY, crash) | C2: 0 (not crash) | C3: 0 (SELL)
-C4: 1.0 (info first, backdrop, BUY, crash) | C5: 0 (HOLD)
-Average REVISIONIST: 0.40 — dominant pathway
+C1: 1.0 (info first, BUY CIQM) | C2: 1.0 (info first, BUY CIQD) | C3: 1.0 (info first, BUY CIQD)
+C4: 1.0 (info first, BUY CIQG) | C5: 1.0 (info first, BUY CIQE)
+Average REVISIONIST: 5/5 = 1.0 — dominant pathway
 
 Closing statement for Demo 3:
 "The Revisionist pathway. I arrow P arrow D.
-Information came first and reframed every headline as signal.
-Two correct contrarian calls. One wrong one.
-But the behavioral signature is unmistakable — data before perception, every time."
+Every single cycle — data before perception. Chart before headline.
+Five for five. The behavioral signature never wavered."
 
 ---
 
@@ -722,7 +712,7 @@ Same geopolitical crisis unfolding in real time.
 
 The Student lost 26 percent reacting to every headline in under three seconds.
 The Young Professional made 51 percent by reading data before every trade.
-The Mid-career investor took contrarian positions — right twice, wrong once — still up 33 percent.
+The Mid-career investor read data before every headline — five for five — up 55 percent.
 The Veteran applied the same thesis every cycle with consistent discipline — up 48 percent.
 
 Each profile is a distinct quantum state collapse pattern.
@@ -742,7 +732,7 @@ That is the Q-TPM framework applied to behavioral finance under real market pres
 |------|-------------|-------------|-------------|-----------|-------------|---------|
 | 1    | Expedient   | P→D         | Student     | $500      | $369        | -26.2%  |
 | 2    | Analytical  | I→J→D       | Young Pro   | $5,000    | $7,577      | +51.5%  |
-| 3    | Revisionist | I→P→D       | Mid-career  | $25,000   | $33,381     | +33.5%  |
+| 3    | Revisionist | I→P→D       | Mid-career  | $25,000   | $38,950     | +55.8%  |
 | 4    | Value_Driven| P→I→J→D     | Veteran     | $100,000  | $147,867    | +47.9%  |
 
 ---
@@ -766,11 +756,12 @@ Demo 3 adds the contrarian narrative and the "wrong call" teaching moment.
 
 EXPEDIENT (Student): No panels. Confirm at any speed (no timing pressure).
 ANALYTICAL (Young Pro): Open panel. Wait 10+ seconds. Confirm. 1-2 panels max.
-REVISIONIST (Mid-career): Click chart FIRST in C1 and C4. Click dark backdrop. Then BUY.
+REVISIONIST (Mid-career): Click chart FIRST before EVERY cycle's first trade — all 5 cycles.
 VALUE_DRIVEN (Veteran): See headline first. THEN open CIQD panel. Confirm within 9s. Always CIQD.
 
-REVISIONIST "info first" only needed in: C1 and C4 (crash cycles with BUY action)
-VALUE_DRIVEN same-ETF rule:             CIQD in every cycle — BUY C1 through C4, SELL C5
+REVISIONIST "info first" needed in: ALL 5 cycles (C1 CIQM, C2 CIQD, C3 CIQD, C4 CIQG, C5 CIQE)
+NOTE: In C2 also SELL all CIQM as the 2nd (unscored) trade after the BUY CIQD is confirmed.
+VALUE_DRIVEN same-ETF rule:         CIQD in every cycle — BUY C1 through C4, SELL C5
 
 ---
 
@@ -838,12 +829,13 @@ DEMO TRADE SEQUENCES (exact inputs for each difficulty):
     Final: ~$7,577 (+51.5%)
 
   REVISIONIST ($25,000):
-    C1: BUY CIQE $8,000 → BUY CIQS $4,000 → END CYCLE  [info panel FIRST, backdrop]
-    C2: BUY CIQM $5,000 → END CYCLE
-    C3: SELL CIQM all → END CYCLE
-    C4: BUY CIQG $6,000 → END CYCLE  [info panel FIRST, backdrop]
-    C5: HOLD → END CYCLE
-    Final: ~$33,381 (+33.5%)
+    C1: BUY CIQM $3,000 → BUY CIQE $8,000 → BUY CIQS $4,000 → END CYCLE  [CIQM chart FIRST]
+    C2: BUY CIQD $2,000 → SELL all CIQM → END CYCLE  [CIQD chart FIRST — REVISIONIST=1.0]
+    C3: BUY CIQD $5,000 → END CYCLE  [CIQD chart FIRST — crash cycle, REVISIONIST=1.0]
+    C4: BUY CIQG $5,000 → END CYCLE  [CIQG chart FIRST — crash cycle, REVISIONIST=1.0]
+    C5: BUY CIQE $1,000 → END CYCLE  [CIQE chart FIRST — crash cycle, REVISIONIST=1.0]
+    REVISIONIST: 5/5 = 1.0 — dominant
+    Final: ~$38,950 (+55.8%)
 
   VALUE_DRIVEN ($100,000):
     C1: BUY CIQD $30,000 → END CYCLE  [headline first, then open CIQD panel, 5-8s]
