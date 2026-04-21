@@ -432,12 +432,10 @@ func _normalized_trade_data(trade_data: Dictionary) -> Dictionary:
 		normalized["stop_loss_set"] = false
 	if not normalized.has("perception_severity"):
 		normalized["perception_severity"] = _get_perception_severity()
-	if not normalized.has("info_panel_opened"):
-		normalized["info_panel_opened"] = false
-	if not normalized.has("info_panel_switches"):
-		normalized["info_panel_switches"] = 0
-	if not normalized.has("etfs_checked"):
-		normalized["etfs_checked"] = []
+	# info_panel_opened / info_panel_switches / etfs_checked are tracked by
+	# BehaviorTracker and must NOT be defaulted here — the merge in
+	# BehaviorTracker._on_trade_confirmed uses overwrite=true, so defaulting
+	# them to false/0/[] here would clobber live tracker state.
 	if not normalized.has("portfolio_value_after"):
 		normalized["portfolio_value_after"] = 0.0
 	return normalized

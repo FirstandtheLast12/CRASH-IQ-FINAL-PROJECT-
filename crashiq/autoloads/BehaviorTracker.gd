@@ -240,6 +240,9 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var checked_etfs: Array = cycle_data.get("etfs_checked", [])
 	var action: String = cycle_data.get("trade_action", "HOLD")
 	var ticker: String = cycle_data.get("etf_traded", "")
+	print("[BT] Cycle %d | info_opened=%s | time=%.2fs | action=%s | ticker=%s" % [
+		cycle_data.get("cycle", 0), str(info_opened), time_to_decide, action, ticker
+	])
 	var reread_headline: bool = cycle_data.get("headline_reread", false)
 
 	var broad_market_change: float = SimulationManager.ETF_CYCLE_CHANGES["CIQM"][
@@ -249,12 +252,6 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var bought_during_crash: bool = action == "BUY" and is_crash_cycle
 
 	var expedient: float = 1.0 if not info_opened else 0.0
-
-	var analytical: float = 0.0
-	if info_opened and time_to_decide > 10.0:
-		analytical = 1.0
-	elif info_opened and time_to_decide > 5.0:
-		analytical = 0.5
 
 	var value_driven: float = 0.0
 	if not ticker.is_empty() and action != "HOLD" and ticker == _prev_etf_traded:
@@ -274,6 +271,13 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 			SimulationManager.current_cycle - 1
 		] > 0.0
 	var global_amplitude: float = 1.0 if (info_switches >= 3 and macro_trade) else 0.0
+
+	# ANALYTICAL scores only when info was opened but no more-specific info-based
+	# pathway also fired that cycle. VALUE_DRIVEN (same ETF), REVISIONIST, RULING_GUIDE,
+	# and GLOBAL all carry their own information-stage signals that take precedence.
+	var analytical: float = 0.0
+	if info_opened and value_driven == 0.0 and revisionist == 0.0 and ruling_guide == 0.0 and global_amplitude == 0.0:
+		analytical = 1.0
 
 	return {
 		"EXPEDIENT": expedient,
