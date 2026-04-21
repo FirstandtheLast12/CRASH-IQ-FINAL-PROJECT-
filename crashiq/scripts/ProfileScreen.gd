@@ -20,7 +20,7 @@ var INTERPRETATIONS: Dictionary = {
 	"RULING_GUIDE":
 		"You worked every stage before committing. Headline, data, judgment, decision - in order, every time. The Ruling Guide pathway is the most deliberate. Under a 10-second timer it is nearly impossible. You did it.",
 	"REVISIONIST":
-		"You let data reshape your worldview before acting. Where others saw disaster you saw information - then reframed the headline as signal. The Revisionist pathway is the contrarian investor's cognitive signature.",
+		"You checked the data before the headline settled. Where others read crisis, you read signal — then let the data reshape what the headline meant. You bought into the crash and read the macro correctly twice. The third call was wrong. That is the Revisionist pathway — information reframes perception before every decision.",
 	"GLOBAL":
 		"You thought in systems. Every trade accounted for the macro picture - not just one ETF but how the whole portfolio responded to the crisis arc. The Global pathway is rare under time pressure. You demonstrated it."
 }

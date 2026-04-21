@@ -4,4 +4,3 @@ res://scripts/RadarChartControl.gd
 res://autoloads/BehaviorTracker.gd
 res://scripts/SimulationScreen.gd
 res://scripts/TradePanel.gd
-res://scenes/Main.tscn

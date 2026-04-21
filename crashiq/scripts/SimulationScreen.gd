@@ -136,11 +136,11 @@ var CYCLE_NARRATIVES: Dictionary = {
 		5: "[center]Gulf mined. Maximum fear.\nSafe Haven rises in exactly this environment.\nThe data says hold. The Analytical pathway does nothing when the data says stay.[/center]"
 	},
 	"Mid-career": {
-		1: "[center]Data before headline. Energy supply shock — CIQE benefits.\nSafe Haven rises in fear environments.\nThe headline confirms what the data already showed. [color=#ff4444][b]I → P → D.[/b][/color][/center]",
-		2: "[center]Strait closes. The crowd is selling CIQM.\nBut the data shows dip buyers entering — CIQM bounced this cycle.\nThe crowd is fleeing. The data says someone is buying the dip.[/center]",
-		3: "[center]China enters. The bounce thesis is over. We captured what we could.\nThe data says exit CIQM before further downside.\nCIQE and CIQS are carrying the portfolio.[/center]",
-		4: "[center]Shipping has been falling all war — but look: up 15%.\nGround invasion signals Hormuz may reopen.\nThe data shows a counterintuitive signal the crowd is not positioned for.[/center]",
-		5: "[center]Gulf mined. CIQG collapses 30%.\nWe bought the Hormuz reopening thesis. The Gulf got mined instead.\nData reshapes perception — but this time the reframe was wrong.[/center]"
+		1: "[center]Before the headline — we check the data.\nEnergy supply shock — CIQE benefits. Safe Haven rises in fear environments.\nThe headline confirms what the data already told us. [color=#ff4444][b]I → P → D.[/b][/color][/center]",
+		2: "[center]Strait closes. Everyone is selling CIQM.\nBut the data shows dip buyers entering — CIQM bounced this cycle.\nThe crowd is fleeing. The data says someone is buying the dip.[/center]",
+		3: "[center]China enters. The bounce thesis is over. The data says exit CIQM.\nBought at $96. Sold at $79. The contrarian call on CIQM was wrong.\nCIQE and CIQS are carrying the portfolio — up from $25K to $30K.[/center]",
+		4: "[center]Shipping has been falling all war — but look: up 15%.\nGround invasion signals Hormuz may reopen. Shipping rerouting creates demand.\nA counterintuitive signal. The crowd is not positioned for this.[/center]",
+		5: "[center]Gulf mined. CIQG collapses 30%. Bought at $43 — now at $30.\nThe contrarian call was [b]WRONG[/b]. The Hormuz thesis failed.\n[color=#ff4444][b]I → P → D[/b][/color] — sometimes the reframe is right. Sometimes it is not.[/center]"
 	},
 	"Veteran": {
 		1: "[center]Defense always rises in the first wave of military escalation.\nThis is the same pattern we have seen in every conflict.\nThesis confirmed. We buy. [color=#ff4444][b]P → I → J → D.[/b][/color][/center]",
@@ -540,6 +540,7 @@ func _enable_cycle_input() -> void:
 
 func _on_etf_selected(ticker: String) -> void:
 	_set_active_etf(ticker)
+	BehaviorTracker.record_info_panel_opened(ticker)
 
 func _select_ticker(ticker: String) -> void:
 	_set_active_etf(ticker)
@@ -547,7 +548,8 @@ func _select_ticker(ticker: String) -> void:
 func _on_summary_card_pressed(button: Button) -> void:
 	var ticker: String = String(button.get_meta("ticker", ""))
 	if not ticker.is_empty():
-		_select_ticker(ticker)
+		_set_active_etf(ticker)
+		BehaviorTracker.record_info_panel_opened(ticker)
 
 func _setup_time_range_controls() -> void:
 	print("Setting up time range controls")

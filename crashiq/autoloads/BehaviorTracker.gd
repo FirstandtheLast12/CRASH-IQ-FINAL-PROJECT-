@@ -19,6 +19,7 @@ var _current: Dictionary = {}
 var _prev_etf_traded: String = ""
 
 func _ready() -> void:
+	SimulationManager.cycle_started.connect(_on_cycle_started)
 	SimulationManager.trading_opened.connect(_on_trading_opened)
 	SimulationManager.trade_confirmed.connect(_on_trade_confirmed)
 
@@ -53,7 +54,7 @@ func get_dominant_pathway() -> String:
 	var best_key: String = "EXPEDIENT"
 	var best_value: float = -1.0
 	for key in amplitudes:
-		if amplitudes[key] > best_value:
+		if amplitudes[key] >= best_value:
 			best_value = amplitudes[key]
 			best_key = key
 	return best_key
@@ -170,7 +171,8 @@ func reset() -> void:
 	_current = {}
 	_prev_etf_traded = ""
 
-func _on_trading_opened(_time_limit: float) -> void:
+func _on_cycle_started(_cycle_num: int, _cycle_data: Object) -> void:
+	print("[BT] _on_cycle_started fired — cycle=%d" % _cycle_num)
 	_current = {
 		"cycle": SimulationManager.current_cycle,
 		"time_to_decide": 0.0,
@@ -189,6 +191,12 @@ func _on_trading_opened(_time_limit: float) -> void:
 		"portfolio_value_before": SimulationManager.get_portfolio_value(),
 		"portfolio_value_after": 0.0
 	}
+
+func _on_trading_opened(_time_limit: float) -> void:
+	# _current already initialized in _on_cycle_started (headline phase)
+	# Just refresh the portfolio snapshot now that cycle prices are applied
+	if not _current.is_empty():
+		_current["portfolio_value_before"] = SimulationManager.get_portfolio_value()
 
 func _on_trade_confirmed(trade_data: Dictionary) -> void:
 	if _current.is_empty():
@@ -234,13 +242,15 @@ func _rebuild_decision_log() -> void:
 			_decision_log.append(_decisions_by_cycle[cycle_num].duplicate(true))
 
 func _score_cycle(cycle_data: Dictionary) -> Dictionary:
-	var time_to_decide: float = cycle_data.get("time_to_decide", 99.0)
 	var info_opened: bool = cycle_data.get("info_panel_opened", false)
 	var info_switches: int = cycle_data.get("info_panel_switches", 0)
 	var checked_etfs: Array = cycle_data.get("etfs_checked", [])
 	var action: String = cycle_data.get("trade_action", "HOLD")
 	var ticker: String = cycle_data.get("etf_traded", "")
-	var reread_headline: bool = cycle_data.get("headline_reread", false)
+	print("[BT] SCORE_INPUT C%d — info_opened=%s info_switches=%d etfs_checked=%s action=%s ticker=%s prev=%s" % [
+		SimulationManager.current_cycle, info_opened, info_switches,
+		str(checked_etfs), action, ticker, _prev_etf_traded
+	])
 
 	var broad_market_change: float = SimulationManager.ETF_CYCLE_CHANGES["CIQM"][
 		SimulationManager.current_cycle - 1
@@ -248,26 +258,27 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var is_crash_cycle: bool = broad_market_change < 0.0
 	var bought_during_crash: bool = action == "BUY" and is_crash_cycle
 
+	# EXPEDIENT: no research at all — reacted to headline blind
 	var expedient: float = 1.0 if not info_opened else 0.0
 
-	var analytical: float = 0.0
-	if info_opened and time_to_decide > 10.0:
-		analytical = 1.0
-	elif info_opened and time_to_decide > 5.0:
-		analytical = 0.5
+	# REVISIONIST: opened panel AND bought into the crash (contrarian)
+	var revisionist: float = 1.0 if (info_opened and bought_during_crash) else 0.0
 
+	# ANALYTICAL: opened panel but did NOT buy into a crash (data-driven, non-contrarian)
+	# Blocked in the same cycle REVISIONIST fires — they are mutually exclusive
+	var analytical: float = 1.0 if (revisionist == 0.0 and info_opened) else 0.0
+
+	# VALUE_DRIVEN: same ETF traded as previous cycle — consistent thesis
 	var value_driven: float = 0.0
 	if not ticker.is_empty() and action != "HOLD" and ticker == _prev_etf_traded:
 		value_driven = 1.0
 
+	# RULING_GUIDE: opened all 5 ETF panels, most thorough review
 	var ruling_guide: float = 1.0 if (
 		info_switches >= 2 and checked_etfs.size() == SimulationManager.get_etf_order().size()
 	) else 0.0
 
-	var revisionist: float = 0.0
-	if info_opened and reread_headline and bought_during_crash and cycle_data.get("first_action", "") == "INFO":
-		revisionist = 1.0
-
+	# GLOBAL: macro-aware — traded rising macro ETF after checking 3+ panels
 	var macro_trade: bool = false
 	if ticker in ["CIQE", "CIQD", "CIQS"]:
 		macro_trade = SimulationManager.ETF_CYCLE_CHANGES[ticker][
@@ -275,6 +286,10 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 		] > 0.0
 	var global_amplitude: float = 1.0 if (info_switches >= 3 and macro_trade) else 0.0
 
+	print("[BT] SCORE_RESULT C%d — EXP=%.1f ANA=%.1f VAL=%.1f RUL=%.1f REV=%.1f GLO=%.1f" % [
+		SimulationManager.current_cycle,
+		expedient, analytical, value_driven, ruling_guide, revisionist, global_amplitude
+	])
 	return {
 		"EXPEDIENT": expedient,
 		"ANALYTICAL": analytical,
