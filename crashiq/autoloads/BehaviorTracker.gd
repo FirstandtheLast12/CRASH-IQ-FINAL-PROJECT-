@@ -247,10 +247,17 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var checked_etfs: Array = cycle_data.get("etfs_checked", [])
 	var action: String = cycle_data.get("trade_action", "HOLD")
 	var ticker: String = cycle_data.get("etf_traded", "")
+<<<<<<< HEAD
 	print("[BT] SCORE_INPUT C%d — info_opened=%s info_switches=%d etfs_checked=%s action=%s ticker=%s prev=%s" % [
 		SimulationManager.current_cycle, info_opened, info_switches,
 		str(checked_etfs), action, ticker, _prev_etf_traded
 	])
+=======
+	print("[BT] Cycle %d | info_opened=%s | time=%.2fs | action=%s | ticker=%s" % [
+		cycle_data.get("cycle", 0), str(info_opened), time_to_decide, action, ticker
+	])
+	var reread_headline: bool = cycle_data.get("headline_reread", false)
+>>>>>>> 0f05d15beff61510ac9312cdec37e3f41d684596
 
 	var broad_market_change: float = SimulationManager.ETF_CYCLE_CHANGES["CIQM"][
 		SimulationManager.current_cycle - 1
@@ -261,6 +268,7 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	# EXPEDIENT: no research at all — reacted to headline blind
 	var expedient: float = 1.0 if not info_opened else 0.0
 
+<<<<<<< HEAD
 	# REVISIONIST: opened panel AND bought into the crash (contrarian)
 	var revisionist: float = 1.0 if (info_opened and bought_during_crash) else 0.0
 
@@ -269,6 +277,8 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 	var analytical: float = 1.0 if (revisionist == 0.0 and info_opened) else 0.0
 
 	# VALUE_DRIVEN: same ETF traded as previous cycle — consistent thesis
+=======
+>>>>>>> 0f05d15beff61510ac9312cdec37e3f41d684596
 	var value_driven: float = 0.0
 	if not ticker.is_empty() and action != "HOLD" and ticker == _prev_etf_traded:
 		value_driven = 1.0
@@ -286,10 +296,20 @@ func _score_cycle(cycle_data: Dictionary) -> Dictionary:
 		] > 0.0
 	var global_amplitude: float = 1.0 if (info_switches >= 3 and macro_trade) else 0.0
 
+<<<<<<< HEAD
 	print("[BT] SCORE_RESULT C%d — EXP=%.1f ANA=%.1f VAL=%.1f RUL=%.1f REV=%.1f GLO=%.1f" % [
 		SimulationManager.current_cycle,
 		expedient, analytical, value_driven, ruling_guide, revisionist, global_amplitude
 	])
+=======
+	# ANALYTICAL scores only when info was opened but no more-specific info-based
+	# pathway also fired that cycle. VALUE_DRIVEN (same ETF), REVISIONIST, RULING_GUIDE,
+	# and GLOBAL all carry their own information-stage signals that take precedence.
+	var analytical: float = 0.0
+	if info_opened and value_driven == 0.0 and revisionist == 0.0 and ruling_guide == 0.0 and global_amplitude == 0.0:
+		analytical = 1.0
+
+>>>>>>> 0f05d15beff61510ac9312cdec37e3f41d684596
 	return {
 		"EXPEDIENT": expedient,
 		"ANALYTICAL": analytical,
